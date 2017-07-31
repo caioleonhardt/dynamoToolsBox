@@ -409,7 +409,7 @@ var DynamoTools = (function() {
                 code[i].classList.add('language-xml');
             }
         }
-        if (init && PR) {
+        if (init && window.PR) {
             PR.prettyPrint();
         }
         return init;
