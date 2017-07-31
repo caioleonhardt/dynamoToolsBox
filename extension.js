@@ -135,6 +135,7 @@ var DynamoTools = (function() {
                     message += "/";
                 }
                 message += "?action=seetmpl&itemdesc=" + input.value + "#showProperties";
+                window.location = message;
             }
         }
         _createInputElement("setPropertyDescriptor", "See property description", "Item Descriptor", execute);
