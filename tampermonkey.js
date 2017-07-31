@@ -1,15 +1,10 @@
 // ==UserScript==
 // @name         ATG Dynamo Tools Box
 // @description  JavaScript Extension for ATG Dynamo
-// @version      0.1
+// @version      0.1.3
 // @match        */dyn/admin/*
+// @require      http://rawgit.com/mdsbarbieri/dynamoToolsBox/master/extension.js
 // ==/UserScript==
-window.mappedHosts = new Map([
-    ['host', 'nickname']
+unsafeWindow.mappedHosts = new Map([
+    ['host or ip', 'nickname']
 ]);
-(function() {
-    var element = document.createElement("script");
-    element.src = "//raw.githubusercontent.com/mdsbarbieri/dynamoToolsBox/master/extension.js"
-    element.defer = true;
-    document.getElementsByTagName('head')[0].appendChild(element);
-});
