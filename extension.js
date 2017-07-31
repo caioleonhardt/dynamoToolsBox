@@ -1,13 +1,3 @@
-// ==UserScript==
-// @name         ATG Dynamo Tools Box
-// @description  JavaScript Extension for ATG Dynamo
-// @version      0.1
-// @match        */dyn/admin/*
-// ==/UserScript==
-window.mappedHosts = new Map([
-    ['host', 'nickname']
-]);
-
 var DynamoTools = (function() {
     'use strict';
 
