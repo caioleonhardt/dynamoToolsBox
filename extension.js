@@ -403,7 +403,7 @@ var DynamoTools = (function() {
             init = true;
         }
 
-        var code = document.getElementsByTagName('pre');
+        var code = document.getElementsByTagName('code');
         if (code) {
             for (var i = 0; i < code.length; i++) {
                 code[i].classList.add('language-xml');
