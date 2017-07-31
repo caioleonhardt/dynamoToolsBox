@@ -54,7 +54,7 @@ var DynamoTools = (function() {
         var count = 0;
         var mapedHostsInteval = setInterval(function() {
             count++;
-            if (window.mappedHosts) {
+            if (window.mappedHosts && window.mappedHosts.size > 0) {
                 var content = window.mappedHosts.get(window.location.host) || window.location.host;
                 if (document.getElementById('whereAmI')) {
                     document.getElementById('whereAmI').innerHTML = '<h3>' + content + '</h3>';
@@ -532,5 +532,6 @@ var DynamoTools = (function() {
         _addCopyrightBox();
     }
 
+
     _init();
-})();
+})(window);
