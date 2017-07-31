@@ -47,8 +47,8 @@ var DynamoTools = (function() {
         var count = 0;
         var mapedHostsInteval = setInterval(function() {
             count++;
-            if (mappedHosts) {
-                var content = mappedHosts.get(window.location.host) || window.location.host;
+            if (window.mappedHosts) {
+                var content = window.mappedHosts.get(window.location.host) || window.location.host;
                 _createTitleElement("whereAmI", "info green", content);
                 clearInterval(mapedHostsInteval);
             }
