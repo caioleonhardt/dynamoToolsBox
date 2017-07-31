@@ -44,12 +44,21 @@ var DynamoTools = (function() {
     }
 
     function _addEnvironmentInfo() {
+        if (window.mappedHosts) {
+            var content = window.mappedHosts.get(window.location.host) || window.location.host;
+        } else {
+            var content = window.location.host;
+        }
+
+        _createTitleElement("whereAmI", "info green", content);
         var count = 0;
         var mapedHostsInteval = setInterval(function() {
             count++;
             if (window.mappedHosts) {
                 var content = window.mappedHosts.get(window.location.host) || window.location.host;
-                _createTitleElement("whereAmI", "info green", content);
+                if (document.getElementById('whereAmI')) {
+                    document.getElementById('whereAmI').innerHTML = '<h3>' + content + '</h3>';
+                }
                 clearInterval(mapedHostsInteval);
             }
             if (count > 10) {
