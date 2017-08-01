@@ -130,11 +130,7 @@ var DynamoTools = (function() {
             var target = event.target;
             var input = target.parentNode.getElementsByTagName('input')[0];
             if (input && input.value) {
-                var message = location.pathname;
-                if (!location.pathname.endsWith('/')) {
-                    message += "/";
-                }
-                message += "?action=seetmpl&itemdesc=" + input.value + "#showProperties";
+                var message = _resolvedPathName() + "?action=seetmpl&itemdesc=" + input.value + "#showProperties";
                 window.location = message;
             }
         }
@@ -148,11 +144,7 @@ var DynamoTools = (function() {
                 var target = event.target;
                 var input = target.parentNode.getElementsByTagName('input');
                 if (input[0] && input[0].value) {
-                    var message = location.pathname;
-                    if (!location.pathname.endsWith('/')) {
-                        message += "/";
-                    }
-                    message += "?action=seeitems&itemdesc=" + input[0].value;
+                    var message = _resolvedPathName() + "?action=seeitems&itemdesc=" + input[0].value;
                     if (input[1] && input[1].value) {
                         message += "&itemid=" + input[1].value;
                     }
@@ -169,11 +161,7 @@ var DynamoTools = (function() {
             var target = event.target;
             var input = target.parentNode.getElementsByTagName('input');
             if (input[0] && input[0].value) {
-                var message = location.pathname;
-                if (!location.pathname.endsWith('/')) {
-                    message += "/";
-                }
-                message += "?shouldInvokeMethod=" + input[0].value;
+                var message = _resolvedPathName() + "?shouldInvokeMethod=" + input[0].value;
                 window.location = message;
             }
         };
@@ -210,29 +198,17 @@ var DynamoTools = (function() {
     }
 
     function _addViewConfiguration() {
-        var message = location.pathname;
-        if (!location.pathname.endsWith('/')) {
-            message += "/";
-        }
-        message += "?propertyName=serviceConfiguration";
+        var message = _resolvedPathName() + "?propertyName=serviceConfiguration";
         _createLinkElement("viewServiceConfiguration", "View Service Configuration", message);
     }
 
     function _addViewDefinitionFiles() {
-        var message = location.pathname;
-        if (!location.pathname.endsWith('/')) {
-            message += "/";
-        }
-        message += "?propertyName=definitionFiles";
+        var message = _resolvedPathName() + "?propertyName=definitionFiles";
         _createLinkElement("viewDefinitionFiles", "View Definition Configuration", message);
     }
 
     function _addViewComponent() {
-        var message = location.pathname;
-        if (!location.pathname.endsWith('/')) {
-            message += "/";
-        }
-        _createLinkElement("viewComponent", "View Component", message);
+        _createLinkElement("viewComponent", "View Component", _resolvedPathName());
     }
 
     function _addExecuteQuery() {
@@ -461,6 +437,10 @@ var DynamoTools = (function() {
 
     function _regularizeString(value) {
         return value.replace('<![CDATA[', '').replace(']]>', '');
+    }
+
+    function _resolvedPathName() {
+        return location.pathname.endsWith('/') ? location.pathname : location.pathname + "/"
     }
 
     function _generateCss() {
