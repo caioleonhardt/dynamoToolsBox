@@ -82,6 +82,7 @@ var DynamoTools = (function() {
                 if (input && input.value) {
                     var message = "SELECT table_name, column_name, data_type FROM ALL_TAB_COLUMNS WHERE TABLE_NAME like '" + input.value.toUpperCase() + "'";
                     fieldText.value = message;
+                    fieldText.focus();
                 }
             };
             _createInputElement("descTable", "Desc table", "Table Name", execute, false);
@@ -99,6 +100,7 @@ var DynamoTools = (function() {
                     message += '\n';
                     message += '<print-item item-descriptor="' + input[0].value + '" id="' + input[1].value + '"/>';
                     fieldText.value = message;
+                    fieldText.focus();
                 }
             };
             _createDoubleInputElement("printItem", "Print Item", "Item Descriptor", "Value", execute, true);
@@ -603,6 +605,7 @@ var DynamoTools = (function() {
                     message += '<print-item item-descriptor=' + elem.innerText + ' id="' + regularizedString + '"/>';
                 }
                 fieldText.value = message;
+                fieldText.focus();
             }
         }
     }
