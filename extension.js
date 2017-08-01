@@ -330,7 +330,7 @@ var DynamoTools = (function() {
 
         var elem = '<div>' +
             '<label>' + label + ':&nbsp;</label>' +
-            '<input type="text" placeholder="' + placholder1 + '" autocomplete="true" id="' + id1 + '"></input>' +
+            '<input type="text" placeholder="' + placholder1 + '" autocomplete="true" data-gotosecond="true" id="' + id1 + '"></input>' +
             '<input type="text" placeholder="' + placholder2 + '" id="' + id2 + '"></input>' +
             '<button id="' + id + '">OK</button>' +
             '</div>';
@@ -420,8 +420,12 @@ var DynamoTools = (function() {
         document.body.addEventListener('click', _hideAutoComplete);
         if (inputs) {
             for (var i = 0; i < inputs.length; i++) {
-                inputs[i].addEventListener("keydown", _autoCompleteEvent);
-                inputs[i].addEventListener("focus", _autoCompleteEvent);
+                var elem = inputs[i];
+                if ("true" == elem.getAttribute('autocomplete')) {
+                    elem.addEventListener("keydown", _autoCompleteEvent);
+                    elem.addEventListener("focus", _autoCompleteEvent);
+                }
+
             }
         }
     }
@@ -509,6 +513,10 @@ var DynamoTools = (function() {
         }
         if (e.keyCode == '13') {
             isEnter = true;
+        }
+        if (e.keyCode == '9') {
+            _forceHide = true;
+            _hideAutoComplete();
         }
         if (isArrowKey || isEnter) {
             var elements = document.getElementsByClassName('js-autocomplete');
