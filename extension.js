@@ -84,7 +84,7 @@ var DynamoTools = (function() {
                     fieldText.value = message;
                 }
             };
-            _createInputElement("descTable", "Desc table", "Table Name", execute);
+            _createInputElement("descTable", "Desc table", "Table Name", execute, false);
         }
     }
 
@@ -101,7 +101,7 @@ var DynamoTools = (function() {
                     fieldText.value = message;
                 }
             };
-            _createDoubleInputElement("printItem", "Print Item", "Item Descriptor", "Value", execute);
+            _createDoubleInputElement("printItem", "Print Item", "Item Descriptor", "Value", execute, true);
         }
     }
 
@@ -121,7 +121,7 @@ var DynamoTools = (function() {
                     _setCaretPosition(fieldText, message.lastIndexOf('> =') + 1);
                 }, 10);
             };
-            _createInputElement("queryItem", "Query Item", "Item Descriptor", execute);
+            _createInputElement("queryItem", "Query Item", "Item Descriptor", execute, true);
         }
     }
 
@@ -134,7 +134,7 @@ var DynamoTools = (function() {
                 window.location = message;
             }
         }
-        _createInputElement("setPropertyDescriptor", "See property description", "Item Descriptor", execute);
+        _createInputElement("setPropertyDescriptor", "See property description", "Item Descriptor", execute, true);
     }
 
     function _addSeeItem() {
@@ -152,7 +152,7 @@ var DynamoTools = (function() {
                     window.location = message;
                 }
             };
-            _createDoubleInputElement("seeItem", "See Item", "Item Descriptor", "Value", execute);
+            _createDoubleInputElement("seeItem", "See Item", "Item Descriptor", "Value", execute, true);
         }
     }
 
@@ -226,7 +226,7 @@ var DynamoTools = (function() {
             }
 
         };
-        _createInputElement("searchMethod", "Search Component", "Query", execute);
+        _createInputElement("searchMethod", "Search Component", "Query", execute, false);
     }
 
     function _setCaretPosition(elem, caretPos) {
@@ -258,11 +258,11 @@ var DynamoTools = (function() {
         _createElement("LI", id, classList, elem, "contentToolsBox");
     }
 
-    function _createInputElement(id, label, placholder, execute) {
+    function _createInputElement(id, label, placholder, execute, autcomplete) {
         var id1 = 'input' + id + new Date().getTime();
         var elem = '<div>' +
             '<label>' + label + ':&nbsp;</label>' +
-            '<input type="text" placeholder="' + placholder + '" autocomplete="true" id="' + id1 + '"></input>' +
+            '<input type="text" placeholder="' + placholder + '" autocomplete="' + autcomplete + '" id="' + id1 + '"></input>' +
             '<button id="' + id + '">OK</button>' +
             '</div>';
         _createElement("LI", null, "execute", elem, "contentToolsBox");
@@ -324,13 +324,13 @@ var DynamoTools = (function() {
         });
     }
 
-    function _createDoubleInputElement(id, label, placholder1, placholder2, execute) {
+    function _createDoubleInputElement(id, label, placholder1, placholder2, execute, autocomplete) {
         var id1 = 'input1' + id + new Date().getTime();
         var id2 = 'input2' + id + new Date().getTime();
 
         var elem = '<div>' +
             '<label>' + label + ':&nbsp;</label>' +
-            '<input type="text" placeholder="' + placholder1 + '" autocomplete="true" data-gotosecond="true" id="' + id1 + '"></input>' +
+            '<input type="text" placeholder="' + placholder1 + '" autocomplete="' + autocomplete + '" data-gotosecond="true" id="' + id1 + '"></input>' +
             '<input type="text" placeholder="' + placholder2 + '" id="' + id2 + '"></input>' +
             '<button id="' + id + '">OK</button>' +
             '</div>';
