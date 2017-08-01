@@ -259,9 +259,10 @@ var DynamoTools = (function() {
     }
 
     function _createInputElement(id, label, placholder, execute) {
+        var id1 = 'input' + id + new Date().getTime();
         var elem = '<div>' +
             '<label>' + label + ':&nbsp;</label>' +
-            '<input type="text" placeholder="' + placholder + '"></input>' +
+            '<input type="text" placeholder="' + placholder + '" autocomplete="true" id="' + id1 + '"></input>' +
             '<button id="' + id + '">OK</button>' +
             '</div>';
         _createElement("LI", null, "execute", elem, "contentToolsBox");
@@ -269,10 +270,12 @@ var DynamoTools = (function() {
         document.getElementById(id).addEventListener("click", execute);
         var input = document.getElementById(id).parentNode.getElementsByTagName('input')[0];
         if (input) {
-            input.addEventListener("keypress", function(e) {
+            input.addEventListener("keydown", function(e) {
                 var keyCode = e.keyCode;
                 if (keyCode == 13) {
-                    document.getElementById(id).click();
+                    setTimeout(function() {
+                        document.getElementById(id).click();
+                    }, 100);
                 }
             });
         }
@@ -322,10 +325,13 @@ var DynamoTools = (function() {
     }
 
     function _createDoubleInputElement(id, label, placholder1, placholder2, execute) {
+        var id1 = 'input1' + id + new Date().getTime();
+        var id2 = 'input2' + id + new Date().getTime();
+
         var elem = '<div>' +
             '<label>' + label + ':&nbsp;</label>' +
-            '<input type="text" placeholder="' + placholder1 + '"></input>' +
-            '<input type="text" placeholder="' + placholder2 + '"></input>' +
+            '<input type="text" placeholder="' + placholder1 + '" autocomplete="true" id="' + id1 + '"></input>' +
+            '<input type="text" placeholder="' + placholder2 + '" id="' + id2 + '"></input>' +
             '<button id="' + id + '">OK</button>' +
             '</div>';
         _createElement("LI", null, "execute", elem, "contentToolsBox");
@@ -333,10 +339,12 @@ var DynamoTools = (function() {
         var inputs = document.getElementById(id).parentNode.getElementsByTagName('input');
         if (inputs) {
             for (var i = 0; i < inputs.length; i++) {
-                inputs[i].addEventListener("keypress", function(e) {
+                inputs[i].addEventListener("keydown", function(e) {
                     var keyCode = e.keyCode;
                     if (keyCode == 13) {
-                        document.getElementById(id).click();
+                        setTimeout(function() {
+                            document.getElementById(id).click();
+                        }, 100);
                     }
                 });
             }
@@ -402,6 +410,162 @@ var DynamoTools = (function() {
         }, 300);
     }
 
+    var itensDescriptors = [];
+
+    function _initAutoComplete() {
+        _loadItemDescriptors();
+        _addSelectAutoCompleteEvent();
+        var box = document.getElementById('dynamoTools');
+        var inputs = box.getElementsByTagName('input');
+        document.body.addEventListener('click', _hideAutoComplete);
+        if (inputs) {
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].addEventListener("keydown", _autoCompleteEvent);
+                inputs[i].addEventListener("focus", _autoCompleteEvent);
+            }
+        }
+    }
+
+    function _loadItemDescriptors() {
+        var ancor = document.getElementsByName('listItemDescriptors')[0]
+        if (ancor) {
+            var table = ancor.nextElementSibling;
+            var ths = table.getElementsByTagName('th');
+            if (ths) {
+                for (var i = 0; i < ths.length; i++) {
+                    if (i > 3) {
+                        itensDescriptors.push(ths[i].innerHTML);
+                    }
+                }
+            }
+        }
+    }
+
+    var _hasAutocompleteInView = false;
+
+    function _autoCompleteEvent() {
+        var target = event.target;
+        var value = target.value;
+        if (value.length == 0) {
+            return;
+        }
+
+        var parentNode = target.parentNode;
+        var targetId = target.getAttribute('id');
+        var id = "auto" + targetId;
+        var elementExists = true;
+        var elem = document.getElementById(id);
+        if (!elem) {
+            elementExists = false;
+            var elem = document.createElement('DIV');
+            if (id) {
+                elem.setAttribute('id', id);
+            }
+            elem.setAttribute('targetId', targetId);
+            elem.setAttribute('class', 'autocomplete js-autocomplete visible');
+        }
+
+        var content = '';
+        for (var i in itensDescriptors) {
+            if (itensDescriptors[i].startsWith(value)) {
+                content += '<span>' + itensDescriptors[i] + '</span>';
+            }
+        }
+        elem.innerHTML = content;
+        _hasAutocompleteInView = true;
+        if (!elementExists) {
+            parentNode.appendChild(elem);
+            return;
+        }
+        elem.classList.add('visible');
+    }
+
+    function _addSelectAutoCompleteEvent() {
+        document.body.addEventListener("keydown", function(e) {
+            if (_hasAutocompleteInView) {
+                _navigateAtAutoComplete(e);
+            }
+        });
+    }
+
+    var _currentActiveList = 0;
+    var _spanLength = 0;
+    var _forceHide = false;
+
+    function _navigateAtAutoComplete(e) {
+        let isArrowKey = false;
+        let isEnter = false;
+        if (e.keyCode == '38') {
+            if (_currentActiveList > 0) {
+                _currentActiveList--;
+            }
+            isArrowKey = true;
+        }
+        if (e.keyCode == '40') {
+            if (_currentActiveList < _spanLength - 1) {
+                _currentActiveList++;
+            }
+            isArrowKey = true;
+        }
+        if (e.keyCode == '13') {
+            isEnter = true;
+        }
+        if (isArrowKey || isEnter) {
+            var elements = document.getElementsByClassName('js-autocomplete');
+            if (elements) {
+                for (var i = 0; i < elements.length; i++) {
+                    var elem = elements[i];
+                    if (elem.classList.contains('visible')) {
+                        var itens = elem.getElementsByTagName('span');
+                        _spanLength = itens.length;
+                        if (itens) {
+                            if (isEnter) {
+                                var targetId = elem.getAttribute('targetId');
+                                var input = document.getElementById(targetId);
+                                if (input) {
+                                    var active = itens[_currentActiveList];
+                                    if (active) {
+                                        input.value = active.innerText;
+                                        _forceHide = true;
+                                        _hideAutoComplete();
+                                    }
+                                }
+                                return;
+                            }
+                            for (var j = 0; j < itens.length; j++) {
+                                var current = itens[j];
+                                current.classList.remove('active');
+                                if (j == _currentActiveList) {
+                                    current.classList.add('active');
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function _hideAutoComplete() {
+        var elements = document.getElementsByClassName('js-autocomplete');
+        if (elements) {
+            for (var i = 0; i < elements.length; i++) {
+                var elem = elements[i];
+                if (elem) {
+                    var target = event.target;
+                    if (!_forceHide && target && target.getAttribute('id') == elem.getAttribute('targetId')) {
+                        break;
+                    }
+                    _forceHide = false;
+                    elem.classList.remove('visible');
+                    _hasAutocompleteInView = false;
+                    _currentActiveList = 0;
+                    _spanLength = 0;
+                }
+            }
+        }
+    }
+
     function _addPropertyEvent() {
         var atvList = document.getElementsByClassName('atv');
         if (atvList) {
@@ -463,6 +627,11 @@ var DynamoTools = (function() {
         styles += 'pre.prettyprint {padding: 0px !important; border: 0px !important;}';
         styles += '.dynamoToolsBox .copyright p {padding: 0px;font-size: 11px;margin: 0px;text-align: right;padding-right: 20px;}';
         styles += '.atv {cursor: pointer;}';
+        styles += '.dynamoToolsBox .autocomplete {background-color: #eaeaea;width: 95%;border: 1px solid #c1c1c1;border-top: 0px;overflow: hidden;display: none;}';
+        styles += '.dynamoToolsBox .autocomplete.visible{display: block;}';
+        styles += '.dynamoToolsBox .autocomplete span{width: 100%;display: inline-block;padding: 3px;}';
+        styles += '.dynamoToolsBox .autocomplete span.active{background-color: #ffffff;color: #009;}';
+
 
 
         if (css.styleSheet) {
@@ -497,6 +666,7 @@ var DynamoTools = (function() {
             _seePropertieDescritor();
             _injectPretify();
             _addPrettifyTags();
+            _initAutoComplete();
         }
     }
 
