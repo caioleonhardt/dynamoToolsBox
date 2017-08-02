@@ -3,7 +3,7 @@ var DynamoTools = (function() {
 
     var config = {
         appName: "Dynamo Tools Box",
-        copyright: "Created by Matheus Barbieri - version 0.1.3"
+        copyright: "Created by Matheus Barbieri - Contributions by Caio Leonhardt - version 0.1.5"
     };
 
     function _injectPretify() {
