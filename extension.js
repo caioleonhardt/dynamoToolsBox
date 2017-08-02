@@ -396,8 +396,8 @@ var DynamoTools = (function() {
                 code[i].classList.add('language-xml');
             }
         }
-        if (init) {
-            PR.prettyPrint();
+        if (init && window.PR) {
+            window.PR.prettyPrint();
         }
         return init;
     }
