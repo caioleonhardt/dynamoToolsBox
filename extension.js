@@ -6,6 +6,18 @@ var DynamoTools = (function() {
         copyright: "Created by Matheus Barbieri - Contributions by Caio Leonhardt - version 0.1.5"
     };
 
+    var _storage = {
+        _data: {},
+        setItem: function(id, val) { return this._data[id] = String(val); },
+        getItem: function(id) { return this._data.hasOwnProperty(id) ? this._data[id] : undefined; },
+        removeItem: function(id) { return delete this._data[id]; },
+        clear: function() { return this._data = {}; }
+    };
+    if (localStorage) {
+        _storage = localStorage;
+    }
+
+
     function _injectPretify() {
         var element = document.createElement("script");
         element.src = "https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"
@@ -25,10 +37,12 @@ var DynamoTools = (function() {
         var target = event.target;
         if (elem && target) {
             if (elem.classList.contains('hide')) {
+                _storage.setItem('minimizedToolBox', false);
                 elem.classList.remove('hide');
                 target.innerText = '-';
                 return;
             }
+            _storage.setItem('minimizedToolBox', true);
             target.innerText = '+';
             elem.classList.add('hide');
         }
@@ -681,9 +695,16 @@ var DynamoTools = (function() {
         }
     }
 
+    function _validateHide() {
+        if ("true" == _storage.getItem('minimizedToolBox')) {
+            document.getElementById('contentToolsBox').classList.add('hide');
+        }
+    }
+
     function _init() {
         _remove();
         _addComponentBox();
+        _validateHide();
         _generateCss();
         _addEnvironmentInfo();
         _addSearch();
