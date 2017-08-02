@@ -668,7 +668,7 @@ var DynamoTools = (function() {
             _addViewConfiguration();
             _addInvokeMethodItem();
         }
-        var regexRepository = /\/nucleus\/.*Repository/;
+        var regexRepository = /\/nucleus\/.*Repository|.*Catalog/;
         if (regexRepository.test(location.pathname)) {
             _addViewDefinitionFiles();
             _addPrintItem();
