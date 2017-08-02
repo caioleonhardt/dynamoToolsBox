@@ -635,7 +635,16 @@ var DynamoTools = (function() {
     function _generateCss() {
         var css = document.createElement('style');
         css.type = 'text/css';
-        var styles = '.dynamoToolsBox {position: fixed;top: 0px;right: -1px;width: 500px;background-color: #545454;border: 3px solid #545454;overflow: hidden;}';
+
+        var zoom = '1';
+        if (window.innerWidth < 2000) {
+            zoom = '0.8'
+        }
+        if (window.innerWidth <= 1440) {
+            zoom = '0.7'
+        }
+
+        var styles = '.dynamoToolsBox {position: fixed;top: 0px;right: -1px;width: 500px;background-color: #545454;border: 3px solid #545454;overflow: hidden;zoom: ' + zoom + '}';
         styles += '.dynamoToolsBox h3 {color: #fff;text-align: center; margin: 10px;}';
         styles += '.dynamoToolsBox .navigation {position: absolute;top: 0;background-color: #696969;cursor: pointer;width: 41px;height: 41px;text-align: center;vertical-align: middle;line-height: 41px;}';
         styles += '.dynamoToolsBox .remove {right: 0;}';
