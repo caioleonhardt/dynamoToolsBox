@@ -424,7 +424,7 @@ var DynamoTools = (function() {
             for (var i = 0; i < inputs.length; i++) {
                 var elem = inputs[i];
                 if ("true" == elem.getAttribute('autocomplete')) {
-                    elem.addEventListener("keydown", _autoCompleteEvent);
+                    elem.addEventListener("keyup", _autoCompleteEvent);
                     elem.addEventListener("focus", _autoCompleteEvent);
                 }
 
@@ -487,7 +487,7 @@ var DynamoTools = (function() {
     }
 
     function _addSelectAutoCompleteEvent() {
-        document.body.addEventListener("keydown", function(e) {
+        document.body.addEventListener("keyup", function(e) {
             if (_hasAutocompleteInView) {
                 _navigateAtAutoComplete(e);
             }
