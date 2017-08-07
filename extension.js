@@ -594,7 +594,11 @@ var DynamoTools = (function() {
         var atvList = document.getElementsByClassName('atv');
         if (atvList) {
             for (var i = 0; i < atvList.length; i++) {
-                atvList[i].addEventListener("click", _populatePropertyQuery);
+                var elem = atvList[i];
+                var prevElementText = elem.previousElementSibling.previousElementSibling.innerHTML;
+                if ("id" != prevElementText && "item-descriptor" != prevElementText) {
+                    elem.addEventListener("click", _populatePropertyQuery);
+                }
             }
         }
     }
