@@ -398,6 +398,39 @@ var DynamoTools = (function() {
         if (toogleToolBox) {
             toogleToolBox.addEventListener("click", _toggleView);
         }
+
+        document.body.addEventListener('keypress', (function(e) {
+            _invokeKeyEvent(e);
+        }))
+    }
+
+    function _invokeKeyEvent(event) {
+        if (event && event.ctrlKey) {
+            if (event.shiftKey) {
+                if (event.keyCode == 6) {
+                    var elem = document.getElementById('searchMethod');
+                    if (elem) {
+                        var parent = elem.parentElement;
+                        if (parent) {
+                            var input = parent.getElementsByTagName('input')[0].focus();
+                            if (input) {
+                                input.focus();
+                            }
+                        }
+
+                    }
+                }
+            }
+            if (event.keyCode == 10 && !_isJDBCPage) {
+                var textArea = document.getElementsByTagName('textarea')[0];
+                if (textArea) {
+                    var parent = textArea.parentElement.parentElement;
+                    if (parent.nodeName == 'FORM') {
+                        parent.submit();
+                    }
+                }
+            }
+        }
     }
 
     function _executePrettify() {
@@ -687,13 +720,17 @@ var DynamoTools = (function() {
         document.getElementsByTagName("head")[0].appendChild(css);
     }
 
+    var _isJDBCPage = false;
+
     function _initJDBCPage() {
         var regex = /jdbcbrowser\/executeQuery.jhtml/;
         if (regex.test(location.pathname)) {
             _addDescTable();
             _injectPretify();
+            _isJDBCPage = true;
         }
     }
+
 
     function _initNucluesPage() {
         var regex = /\/nucleus\//;
