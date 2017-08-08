@@ -6,5 +6,5 @@
 // @require      http://rawgit.com/mdsbarbieri/dynamoToolsBox/master/extension.js
 // ==/UserScript==
 unsafeWindow.mappedHosts = new Map([
-    ['host or ip', 'nickname']
+    ['host or ip', { name: 'nickname', production: false }]
 ]);

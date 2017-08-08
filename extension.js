@@ -58,20 +58,26 @@ var DynamoTools = (function() {
     }
 
     function _addEnvironmentInfo() {
-        if (unsafeWindow.mappedHosts) {
-            var content = unsafeWindow.mappedHosts.get(window.location.host) || window.location.host;
-        } else {
-            var content = window.location.host;
-        }
-
+        var isProduction = false;
+        var content = window.location.host;
         _createTitleElement("whereAmI", "info green", content);
         var count = 0;
         var mapedHostsInteval = setInterval(function() {
             count++;
             if (unsafeWindow.mappedHosts && unsafeWindow.mappedHosts.size > 0) {
-                var content = mappedHosts.get(window.location.host) || window.location.host;
+                if (unsafeWindow.mappedHosts) {
+                    var content = window.location.host;
+                    if (unsafeWindow.mappedHosts.get(window.location.host)) {
+                        content = unsafeWindow.mappedHosts.get(window.location.host).name;
+                        isProduction = unsafeWindow.mappedHosts.get(window.location.host).production;
+                    }
+                }
                 if (document.getElementById('whereAmI')) {
                     document.getElementById('whereAmI').innerHTML = '<h3>' + content + '</h3>';
+                    if (isProduction) {
+                        document.getElementById('whereAmI').classList.remove('green');
+                        document.getElementById('whereAmI').classList.add('red');
+                    }
                 }
                 clearInterval(mapedHostsInteval);
             }
@@ -659,6 +665,7 @@ var DynamoTools = (function() {
         styles += '.dynamoToolsBox .info label {float:left;font-weight: bold;}';
         styles += '.dynamoToolsBox .info div {float:left}';
         styles += '.dynamoToolsBox .green {background-color:#abffa5}';
+        styles += '.dynamoToolsBox .red {background-color:#ff0000}';
         styles += '.dynamoToolsBox .info h3 {color: #2d2d2d;font-size: 20px;margin: 0px;}';
         styles += '.dynamoToolsBox .execute label {float:left;font-weight: bold;}';
         styles += '.dynamoToolsBox .execute div {float:left}';
