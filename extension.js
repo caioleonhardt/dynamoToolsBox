@@ -297,7 +297,7 @@ var DynamoTools = (function() {
                 if (keyCode == 13) {
                     setTimeout(function() {
                         document.getElementById(id).click();
-                    }, 100);
+                    }, 300);
                 }
             });
         }
