@@ -60,7 +60,7 @@ var DynamoTools = (function() {
     function _addEnvironmentInfo() {
         var isProduction = false;
         var content = window.location.host;
-        _createTitleElement("whereAmI", "info green", content);
+        _createTitleElement("whereAmI", "info green", '');
         var count = 0;
         var mapedHostsInteval = setInterval(function() {
             count++;
