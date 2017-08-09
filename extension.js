@@ -174,7 +174,7 @@ var DynamoTools = (function() {
                     window.location = message;
                 }
             };
-            _createDoubleInputElement("seeItem", "See Item", "Item Descriptor", "Value", execute, true);
+            _createDoubleInputElement("seeItem", "See Item", "Item Descriptor", "Value", execute, true, true);
         }
     }
 
@@ -346,7 +346,7 @@ var DynamoTools = (function() {
         });
     }
 
-    function _createDoubleInputElement(id, label, placholder1, placholder2, execute, autocomplete) {
+    function _createDoubleInputElement(id, label, placholder1, placholder2, execute, autocomplete, removeKeyEvent) {
         var id1 = 'input1' + id + new Date().getTime();
         var id2 = 'input2' + id + new Date().getTime();
 
@@ -361,14 +361,16 @@ var DynamoTools = (function() {
         var inputs = document.getElementById(id).parentNode.getElementsByTagName('input');
         if (inputs) {
             for (var i = 0; i < inputs.length; i++) {
-                inputs[i].addEventListener("keydown", function(e) {
-                    var keyCode = e.keyCode;
-                    if (keyCode == 13) {
-                        setTimeout(function() {
-                            document.getElementById(id).click();
-                        }, 100);
-                    }
-                });
+                if (!removeKeyEvent) {
+                    inputs[i].addEventListener("keydown", function(e) {
+                        var keyCode = e.keyCode;
+                        if (keyCode == 13) {
+                            setTimeout(function() {
+                                document.getElementById(id).click();
+                            }, 100);
+                        }
+                    });
+                }
             }
         }
     }
