@@ -760,6 +760,20 @@ var DynamoTools = (function() {
         }
     }
 
+    function _validateLinks() {
+        if (/cmpn-search.jhtml/.test(location.pathname)) {
+            var linkList = document.getElementsByTagName('a');
+            if (linkList) {
+                for (var i = 0; i < linkList.length; i++) {
+                    var elem = linkList[i];
+                    if (/\/\//.test(elem.getAttribute('href'))) {
+                        elem.setAttribute('href', elem.getAttribute('href').replace('//', '/'))
+                    }
+                }
+            }
+        }
+    }
+
     function _init() {
         _remove();
         _addComponentBox();
@@ -772,6 +786,7 @@ var DynamoTools = (function() {
         _initNucluesPage();
         _addEventListeners();
         _addCopyrightBox();
+        _validateLinks();
     }
 
 
