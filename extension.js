@@ -463,6 +463,7 @@ var DynamoTools = (function() {
             if (_executePrettify()) {
                 clearInterval(prettifyInteval);
                 _addPropertyEvent();
+                _addItemDescriptorEvent();
             }
         }, 300);
     }
@@ -644,6 +645,89 @@ var DynamoTools = (function() {
         }
     }
 
+    function _addItemDescriptorEvent() {
+        var itemDescAutoCompleteInteval = setInterval(function() {
+            var atvList = document.getElementsByClassName('atn');
+            if (atvList[0]) {
+                clearInterval(itemDescAutoCompleteInteval);
+                if (atvList) {
+                    for (var i = 0; i < atvList.length; i++) {
+                        var elem = atvList[i];
+                        if ("item-descriptor" == elem.innerText) {
+                            var itemDesc = elem.nextElementSibling.nextElementSibling.innerHTML.replace(/\"/g, '');
+                            var tagId = elem.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling
+                            if ("id" == tagId.innerText) {
+                                var id = tagId.nextElementSibling.nextElementSibling.innerText;
+                                var replacedId = id.replace(/\"/g, '');
+                                elem.classList.add('itenDescAutoComplete');
+                                var htmlContent = '<div class="itemDescActions" data-id="' + replacedId + '" data-itemdesc="' + itemDesc + '">';
+                                htmlContent += '<div id="remove_' + replacedId + '">remove</div>';
+                                htmlContent += '<div id="update_' + replacedId + '">update</div>';
+                                htmlContent += '<div id="print_' + replacedId + '">print</div>';
+                                htmlContent += '</div>';
+
+                                elem.innerHTML += htmlContent;
+                                setTimeout(function() {
+                                    document.getElementById('remove_' + replacedId).addEventListener("click", _removeItemDescEvent);
+                                    document.getElementById('update_' + replacedId).addEventListener("click", __updateItemDescEvent);
+                                    document.getElementById('print_' + replacedId).addEventListener("click", __printItemDescEvent);
+                                }, 100);
+                            }
+                        }
+                    }
+                }
+            }
+        }, 300);
+    }
+
+    function _removeItemDescEvent() {
+        var target = event.target;
+        var parent = target.parentElement;
+        var dataId = parent.getAttribute('data-id');
+        var dataItemDesc = parent.getAttribute('data-itemdesc');
+        var removeItemText = '<remove-item item-descriptor="' + dataItemDesc + '" id="' + dataId + '"/>';
+        var fieldText = document.getElementsByTagName('textarea')[0];
+        if (fieldText) {
+            var message = '\n';
+            message += removeItemText;
+            fieldText.value += message;
+            fieldText.focus();
+        }
+    }
+
+    function __updateItemDescEvent() {
+        var target = event.target;
+        var parent = target.parentElement;
+        var dataId = parent.getAttribute('data-id');
+        var dataItemDesc = parent.getAttribute('data-itemdesc');
+        var updateItemText = '<update-item item-descriptor="' + dataItemDesc + '" id="' + dataId + '">';
+        updateItemText += '\n\t<set-property name=""><![CDATA[]]></set-property>';
+        updateItemText += '\n</update-item>';
+
+        var fieldText = document.getElementsByTagName('textarea')[0];
+        if (fieldText) {
+            var message = '\n';
+            message += updateItemText;
+            fieldText.value += message;
+            fieldText.focus();
+        }
+    }
+
+    function __printItemDescEvent() {
+        var target = event.target;
+        var parent = target.parentElement;
+        var dataId = parent.getAttribute('data-id');
+        var dataItemDesc = parent.getAttribute('data-itemdesc');
+        var printItemText = '<print-item item-descriptor="' + dataItemDesc + '" id="' + dataId + '"/>';
+        var fieldText = document.getElementsByTagName('textarea')[0];
+        if (fieldText) {
+            var message = '\n';
+            message += printItemText;
+            fieldText.value += message;
+            fieldText.focus();
+        }
+    }
+
     function _populatePropertyQuery() {
         var elem = event.target;
         var value = elem.nextElementSibling.nextElementSibling
@@ -711,6 +795,10 @@ var DynamoTools = (function() {
         styles += '.dynamoToolsBox .autocomplete.visible{display: block;}';
         styles += '.dynamoToolsBox .autocomplete span{width: 100%;display: inline-block;padding: 3px;}';
         styles += '.dynamoToolsBox .autocomplete span.active{background-color: #ffffff;color: #009;}';
+        styles += '.itemDescActions {display:none;position: absolute;background: #fff;border: 1px solid;width: 106px;left: 79px;text-transform: capitalize;cursor: pointer;}';
+        styles += '.itemDescActions div{padding: 3px;color: #000;}';
+        styles += '.itemDescActions div:hover{background-color: #f3f3f3;}';
+        styles += '.itenDescAutoComplete:hover .itemDescActions{display:block;}';
 
 
 
