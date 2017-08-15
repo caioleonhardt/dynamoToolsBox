@@ -667,11 +667,9 @@ var DynamoTools = (function() {
                                 htmlContent += '</div>';
 
                                 elem.innerHTML += htmlContent;
-                                setTimeout(function() {
-                                    document.getElementById('remove_' + replacedId).addEventListener("click", _removeItemDescEvent);
-                                    document.getElementById('update_' + replacedId).addEventListener("click", __updateItemDescEvent);
-                                    document.getElementById('print_' + replacedId).addEventListener("click", __printItemDescEvent);
-                                }, 100);
+                                document.getElementById('remove_' + replacedId).addEventListener("click", _removeItemDescEvent);
+                                document.getElementById('update_' + replacedId).addEventListener("click", __updateItemDescEvent);
+                                document.getElementById('print_' + replacedId).addEventListener("click", __printItemDescEvent);
                             }
                         }
                     }
