@@ -3,7 +3,7 @@ var DynamoTools = (function() {
 
     var config = {
         appName: "Dynamo Tools Box",
-        copyright: "Created by Matheus Barbieri - Contributions by Caio Leonhardt - version 0.1.5"
+        copyright: "Created by Matheus Barbieri - Contributions by Caio Leonhardt - version 0.2.0"
     };
 
     var _storage = {
