@@ -1,0 +1,29 @@
+{
+  "name": "dynamo-tool-box",
+  "version": "0.0.1",
+  "description": " Dynamo Tools Box born with a idea of turn more easy a navigation and use of Dynamo ATG",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdsbarbieri/dynamoToolsBox.git"
+  },
+  "keywords": [
+    "dynamo",
+    "dynamobox",
+    "dynamotools"
+  ],
+  "author": "Matheus Barbieri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mdsbarbieri/dynamoToolsBox/issues"
+  },
+  "homepage": "https://github.com/mdsbarbieri/dynamoToolsBox#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-cli": "^1.4.0",
+    "gulp-minify": "^1.0.0"
+  }
+}
