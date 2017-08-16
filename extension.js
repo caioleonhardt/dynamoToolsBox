@@ -797,7 +797,8 @@ var DynamoTools = (function() {
         styles += '.itemDescActions div{padding: 3px;color: #000;}';
         styles += '.itemDescActions div:hover{background-color: #f3f3f3;}';
         styles += '.itenDescAutoComplete:hover .itemDescActions{display:block;}';
-
+        styles += '.dynamoToolsBox .favorites{background-color: #ececec;padding-top: 0px;}';
+        styles += '.dynamoToolsBox .favorites a{width: 100%;display: inline-block;padding: 5px 0px;}';
 
 
         if (css.styleSheet) {
@@ -806,6 +807,47 @@ var DynamoTools = (function() {
             css.appendChild(document.createTextNode(styles));
         }
         document.getElementsByTagName("head")[0].appendChild(css);
+    }
+
+    function _validateHide() {
+        if ("true" == _storage.getItem('minimizedToolBox')) {
+            document.getElementById('contentToolsBox').classList.add('hide');
+        }
+    }
+
+    function _validateLinks() {
+        if (/cmpn-search.jhtml/.test(location.pathname)) {
+            var linkList = document.getElementsByTagName('a');
+            if (linkList) {
+                for (var i = 0; i < linkList.length; i++) {
+                    var elem = linkList[i];
+                    if (/\/\//.test(elem.getAttribute('href'))) {
+                        elem.setAttribute('href', elem.getAttribute('href').replace('//', '/'))
+                    }
+                }
+            }
+        }
+    }
+
+    function _addFavoriteUrls() {
+        var id = 'favoriteLinks';
+        _createElement("LI", id, "favorites", '', "contentToolsBox");
+        var count = 0;
+        var favoritesInteval = setInterval(function() {
+            count++;
+            if (unsafeWindow.favorites) {
+                clearInterval(favoritesInteval);
+                var message = '';
+                for (var i = 0; i < unsafeWindow.favorites.length; i++) {
+                    var link = unsafeWindow.favorites[i];
+                    message += '<a href="/dyn/admin' + link + '">' + link + '</a>';
+                }
+                document.getElementById(id).innerHTML = message;
+            }
+            if (count > 10) {
+                clearInterval(favorites);
+            }
+        }, 300);
     }
 
     var _isJDBCPage = false;
@@ -840,25 +882,6 @@ var DynamoTools = (function() {
         }
     }
 
-    function _validateHide() {
-        if ("true" == _storage.getItem('minimizedToolBox')) {
-            document.getElementById('contentToolsBox').classList.add('hide');
-        }
-    }
-
-    function _validateLinks() {
-        if (/cmpn-search.jhtml/.test(location.pathname)) {
-            var linkList = document.getElementsByTagName('a');
-            if (linkList) {
-                for (var i = 0; i < linkList.length; i++) {
-                    var elem = linkList[i];
-                    if (/\/\//.test(elem.getAttribute('href'))) {
-                        elem.setAttribute('href', elem.getAttribute('href').replace('//', '/'))
-                    }
-                }
-            }
-        }
-    }
 
     function _init() {
         _remove();
@@ -871,6 +894,7 @@ var DynamoTools = (function() {
         _initJDBCPage();
         _initNucluesPage();
         _addEventListeners();
+        _addFavoriteUrls();
         _addCopyrightBox();
         _validateLinks();
     }

@@ -8,3 +8,8 @@
 unsafeWindow.mappedHosts = new Map([
     ['host or ip', { name: 'nickname', production: false }]
 ]);
+
+unsafeWindow.favorites = [
+    '/atg/userprofiling/ProfileAdapterRepository/',
+    '/atg/commerce/order/OrderRepository/'
+];
