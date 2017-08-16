@@ -1,10 +1,9 @@
-(function(window, unsafeWindow) {
+(function(window, unsafeWindow, DynamoToolBox) {
     'use strict';
 
-    var config = {
-        appName: "Dynamo Tools Box",
-        copyright: "Created by Matheus Barbieri - Contributions by Caio Leonhardt - version 0.2.0"
-    };
+    if (window.console && console.info) {
+        console.info(CONSTANTS.welcomeMessage);
+    }
 
     var _storage = {
         _data: {},
@@ -13,10 +12,10 @@
         removeItem: function(id) { return delete this._data[id]; },
         clear: function() { return this._data = {}; }
     };
+
     if (localStorage) {
         _storage = localStorage;
     }
-
 
     function _injectPretify() {
         var element = document.createElement("script");
@@ -49,7 +48,7 @@
     }
 
     function _addComponentBox() {
-        var content = '<h3>' + config.appName +
+        var content = '<h3>' + DynamoToolBox.config.appName +
             '<span class="navigation remove" id="removeToolBox">X</span>' +
             '<span class="navigation toogle" id="toogleToolBox">-</span>' +
             '</h3><div><ul id="contentToolsBox"></ul></div>';
@@ -88,7 +87,7 @@
     }
 
     function _addCopyrightBox() {
-        var content = config.copyright;
+        var content = DynamoToolBox.config.copyright;
         _createTextElement("copyright", "info copyright", content);
     }
 
@@ -870,4 +869,4 @@
 
 
     _init();
-})(window, unsafeWindow);
+})(window, unsafeWindow, DynamoToolBox);

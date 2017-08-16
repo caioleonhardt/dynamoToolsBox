@@ -9,6 +9,7 @@ var rename = require('gulp-rename');
 
 gulp.task('concatJS', function() {
     return gulp.src([
+            'src/js/core.js',
             'src/js/extension.js'
         ])
         .pipe(jsConcat('extension.js'))
