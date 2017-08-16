@@ -48,12 +48,8 @@
     }
 
     function _addComponentBox() {
-        var content = '<h3>' + DynamoToolBox.config.appName +
-            '<span class="navigation remove" id="removeToolBox">X</span>' +
-            '<span class="navigation toogle" id="toogleToolBox">-</span>' +
-            '</h3><div><ul id="contentToolsBox"></ul></div>';
-
-        _createElement("DIV", "dynamoTools", "dynamoToolsBox", content, null);
+        var content = DynamoToolBox.render.renderHtmlTags('{{htmlBox}}');
+        document.body.innerHTML += content;
     }
 
     function _addEnvironmentInfo() {

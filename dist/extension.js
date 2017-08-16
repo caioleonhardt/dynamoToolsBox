@@ -29,6 +29,43 @@
 (function(window, unsafeWindow, DynamoToolBox) {
     'use strict';
 
+    var render = (function() {
+        'use strict';
+
+        function renderHtmlTags(html) {
+            var regex = /\{\{([a-zA-Z\.]*)\}\}/g;
+            var str = html;
+            var replacedString = str;
+            var match;
+
+            while ((match = regex.exec(str)) !== null) {
+                if (match.index === regex.lastIndex) {
+                    regex.lastIndex++;
+                }
+                if (match[0]) {
+                    var replaceText = match[0];
+                    try {
+                        var replaceValue = eval(match[1]);
+                        replacedString = replacedString.replace(replaceText, replaceValue);
+                    } catch (e) {
+                        replacedString = replacedString.replace(replaceText, '');
+                    }
+                }
+            }
+            return replacedString;
+        }
+
+        return {
+            renderHtmlTags: renderHtmlTags
+        }
+    })();
+
+    DynamoToolBox.render = render;
+
+})(window, unsafeWindow, DynamoToolBox);
+(function(window, unsafeWindow, DynamoToolBox) {
+    'use strict';
+
     if (window.console && console.info) {
         console.info(CONSTANTS.welcomeMessage);
     }
@@ -76,12 +113,8 @@
     }
 
     function _addComponentBox() {
-        var content = '<h3>' + DynamoToolBox.config.appName +
-            '<span class="navigation remove" id="removeToolBox">X</span>' +
-            '<span class="navigation toogle" id="toogleToolBox">-</span>' +
-            '</h3><div><ul id="contentToolsBox"></ul></div>';
-
-        _createElement("DIV", "dynamoTools", "dynamoToolsBox", content, null);
+        var content = DynamoToolBox.render.renderHtmlTags('<div id="dynamoTools" class="dynamoToolsBox"><h3>{{DynamoToolBox.config.appName}}<span class="navigation remove" id="removeToolBox">X</span><span class="navigation toogle" id="toogleToolBox">-</span></h3><div><ul id="contentToolsBox"></ul></div></div>');
+        document.body.innerHTML += content;
     }
 
     function _addEnvironmentInfo() {
