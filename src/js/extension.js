@@ -768,35 +768,7 @@
             zoom = '0.7';
         }
 
-        var styles = '.dynamoToolsBox {position: fixed;top: 0px;right: -1px;width: 500px;background-color: #545454;border: 3px solid #545454;overflow: hidden;zoom: ' + zoom + '}';
-        styles += '.dynamoToolsBox h3 {color: #fff;text-align: center; margin: 10px;}';
-        styles += '.dynamoToolsBox .navigation {position: absolute;top: 0;background-color: #696969;cursor: pointer;width: 41px;height: 41px;text-align: center;vertical-align: middle;line-height: 41px;}';
-        styles += '.dynamoToolsBox .remove {right: 0;}';
-        styles += '.dynamoToolsBox .toogle {right: 42px;}';
-        styles += '.dynamoToolsBox ul {list-style: none;margin: 0;padding: 0;}';
-        styles += '.dynamoToolsBox li {border-bottom: 2px solid #dcdcdc;background-color: #fdfdfd;display: inline-block;width: 100%;padding: 10px;}';
-        styles += '.dynamoToolsBox .hide {display: none;}';
-        styles += '.dynamoToolsBox .info label {float:left;font-weight: bold;}';
-        styles += '.dynamoToolsBox .info div {float:left}';
-        styles += '.dynamoToolsBox .green {background-color:#abffa5}';
-        styles += '.dynamoToolsBox .red {background-color:#ff0000}';
-        styles += '.dynamoToolsBox .info h3 {color: #2d2d2d;font-size: 20px;margin: 0px;}';
-        styles += '.dynamoToolsBox .execute label {float:left;font-weight: bold;}';
-        styles += '.dynamoToolsBox .execute div {float:left}';
-        styles += 'pre.prettyprint {padding: 0px !important; border: 0px !important;}';
-        styles += '.dynamoToolsBox .copyright p {padding: 0px;font-size: 11px;margin: 0px;text-align: right;padding-right: 20px;}';
-        styles += '.atv {cursor: pointer;}';
-        styles += '.dynamoToolsBox .autocomplete {background-color: #eaeaea;width: 95%;border: 1px solid #c1c1c1;border-top: 0px;overflow: hidden;display: none;}';
-        styles += '.dynamoToolsBox .autocomplete.visible{display: block;}';
-        styles += '.dynamoToolsBox .autocomplete span{width: 100%;display: inline-block;padding: 3px;}';
-        styles += '.dynamoToolsBox .autocomplete span.active{background-color: #ffffff;color: #009;}';
-        styles += '.itemDescActions {display:none;position: absolute;background: #fff;border: 1px solid #898989;width: 106px;left: 79px;text-transform: capitalize;cursor: pointer;}';
-        styles += '.itemDescActions div{padding: 3px;color: #000;}';
-        styles += '.itemDescActions div:hover{background-color: #f3f3f3;}';
-        styles += '.itenDescAutoComplete:hover .itemDescActions{display:block;}';
-        styles += '.dynamoToolsBox .favorites{background-color: #ececec;padding-top: 0px;}';
-        styles += '.dynamoToolsBox .favorites a{width: 100%;display: inline-block;padding: 5px 0px;}';
-
+        var styles = '{{css}}';
 
         if (css.styleSheet) {
             css.styleSheet.cssText = styles;
