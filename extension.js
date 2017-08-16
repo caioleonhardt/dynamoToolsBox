@@ -840,7 +840,7 @@ var DynamoTools = (function() {
                 var message = '';
                 for (var i = 0; i < unsafeWindow.favorites.length; i++) {
                     var link = unsafeWindow.favorites[i];
-                    message += '<a href="/dyn/admin' + link + '">' + link + '</a>';
+                    message += '<a href="/dyn/admin/nucleus' + link + '">' + link + '</a>';
                 }
                 document.getElementById(id).innerHTML = message;
             }
