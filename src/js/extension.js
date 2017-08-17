@@ -630,7 +630,7 @@
 
     function _addPropertyEvent() {
         var atvList = document.getElementsByClassName('atv');
-        if (atvList) {
+        if (atvList && !/.*definitionFiles.*/.test(location.search)) {
             for (var i = 0; i < atvList.length; i++) {
                 var elem = atvList[i];
                 var prevElementText = elem.previousElementSibling.previousElementSibling.innerHTML;
