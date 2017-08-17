@@ -456,7 +456,9 @@
         var prettifyInteval = setInterval(function() {
             if (_executePrettify()) {
                 _addItemDescriptorEvent();
-                _addPropertyEvent();
+                setTimeout(function() {
+                    _addPropertyEvent();
+                }, 500);
                 clearInterval(prettifyInteval);
             }
         }, 300);
