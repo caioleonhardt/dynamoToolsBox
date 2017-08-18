@@ -7,7 +7,20 @@
         function invoke(url, params, callback) {
             var http = new XMLHttpRequest();
             var url = url;
-            url += params
+
+            if (params) {
+                var stringParam = '?';
+                var keySet = Object.keys(params);
+                for (var i = 0; i < keySet.length; i++) {
+                    if (i > 0) {
+                        stringParam += "&";
+                    }
+                    var currentKey = keySet[i];
+                    var auxStr = currentKey + '=' + params[currentKey];
+                    stringParam += auxStr;
+                }
+                url += stringParam
+            }
 
             http.open("POST", url, true);
 

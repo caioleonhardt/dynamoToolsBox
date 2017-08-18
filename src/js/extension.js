@@ -814,10 +814,13 @@
     function _addSwitchDataSource() {
         var execute = function(event) {
             var input = event.target;
-            console.log(input);
             if (input && input.value) {
                 var url = "/dyn/admin/nucleus/atg/dynamo/admin/jdbcbrowser/ConnectionPoolPointer/";
-                var params = "?propertyName=connectionPool&newValue=" + input.value + "&change=Change Value";
+                var params = {
+                    "propertyName": "connectionPool",
+                    "newValue": input.value,
+                    "change": "Change Value"
+                }
                 DynamoToolBox.request.invoke(url, params, null);
             }
         };

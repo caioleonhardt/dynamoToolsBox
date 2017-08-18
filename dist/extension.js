@@ -5,7 +5,7 @@
 
         var config = {
             appName: "Dynamo Tool Box",
-            copyright: "Created by Matheus Barbieri - Contributions by Caio Leonhardt - version 0.2.0"
+            copyright: "Created by Matheus Barbieri - Contributions by Caio Leonhardt - version 0.2.1"
         };
 
         return {
@@ -72,7 +72,22 @@
         function invoke(url, params, callback) {
             var http = new XMLHttpRequest();
             var url = url;
-            url += params
+
+            if (params) {
+                var stringParam = '?';
+                var keySet = Object.keys(params);
+                for (var i = 0; i < keySet.length; i++) {
+                    if (i > 0) {
+                        stringParam += "&";
+                    }
+                    var currentKey = keySet[i];
+                    var auxStr = currentKey + '=' + params[currentKey];
+                    stringParam += auxStr;
+                }
+                url += stringParam
+                console.log(keySet);
+                console.log(stringParam);
+            }
 
             http.open("POST", url, true);
 
@@ -915,8 +930,15 @@
             var input = event.target;
             console.log(input);
             if (input && input.value) {
+                console.log(input.value);
                 var url = "/dyn/admin/nucleus/atg/dynamo/admin/jdbcbrowser/ConnectionPoolPointer/";
-                var params = "?propertyName=connectionPool&newValue=" + input.value + "&change=Change Value";
+                var params = {
+                    "propertyName": "connectionPool",
+                    "newValue": input.value,
+                    "change": "Change Value"
+                }
+                console.log(params);
+
                 DynamoToolBox.request.invoke(url, params, null);
             }
         };
@@ -927,7 +949,7 @@
             },
             {
                 "value": "/atg/dynamo/service/jdbc/SwitchingDataSource",
-                "text": "PUB",
+                "text": "SWITCH",
             },
             {
                 "value": "/atg/dynamo/service/jdbc/SwitchingDataSourceA",
