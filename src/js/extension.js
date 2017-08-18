@@ -173,14 +173,13 @@
     }
 
     function _addInvokeMethodItem() {
-        var execute = function() {
+        var execute = function(event) {
             var target = event.target;
-            var input = target.parentNode.getElementsByTagName('input');
-            if (input[0] && input[0].value) {
-                var message = _resolvedPathName() + "?shouldInvokeMethod=" + input[0].value;
-                window.location = message;
+            if (target && target.value) {
+                location = target.value;
             }
         };
+
         _createSelectOneElement("invokeMethod", "Invoke Method", _loadMethods(), execute);
     }
 
@@ -332,12 +331,7 @@
         elem += '</select></div>';
         _createElement("LI", null, "execute", elem, "contentToolsBox");
 
-        document.getElementById(id).addEventListener("change", function(event) {
-            var target = event.target;
-            if (target && target.value) {
-                location = target.value;
-            }
-        });
+        document.getElementById(id).addEventListener("change", execute);
     }
 
     function _createDoubleInputElement(id, label, placholder1, placholder2, execute, autocomplete, removeKeyEvent) {
@@ -816,6 +810,39 @@
         }, 300);
     }
 
+
+    function _addSwitchDataSource() {
+        var execute = function(event) {
+            var input = event.target;
+            console.log(input);
+            if (input && input.value) {
+                var url = "/dyn/admin/nucleus/atg/dynamo/admin/jdbcbrowser/ConnectionPoolPointer/";
+                var params = "?propertyName=connectionPool&newValue=" + input.value + "&change=Change Value";
+                DynamoToolBox.request.invoke(url, params, null);
+            }
+        };
+
+        var method = [{
+                "value": "/atg/dynamo/service/jdbc/JTDataSource",
+                "text": "CORE",
+            },
+            {
+                "value": "/atg/dynamo/service/jdbc/SwitchingDataSource",
+                "text": "SWITCH",
+            },
+            {
+                "value": "/atg/dynamo/service/jdbc/SwitchingDataSourceA",
+                "text": "CATALOG_A",
+            },
+            {
+                "value": "/atg/dynamo/service/jdbc/SwitchingDataSourceB",
+                "text": "CATALOG_B",
+            }
+        ];
+
+        _createSelectOneElement("switchDataSource", "Switch Data Source", method, execute);
+    }
+
     var _isJDBCPage = false;
 
     function _initJDBCPage() {
@@ -823,6 +850,7 @@
         if (regex.test(location.pathname)) {
             _addDescTable();
             _injectPretify();
+            _addSwitchDataSource();
             _isJDBCPage = true;
         }
     }

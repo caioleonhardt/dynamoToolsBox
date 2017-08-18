@@ -12,6 +12,7 @@ gulp.task('concatJS', function() {
     return gulp.src([
             'src/js/core.js',
             'src/js/render.js',
+            'src/js/request.js',
             'src/js/extension.js'
         ])
         .pipe(jsConcat('extension.js'))
