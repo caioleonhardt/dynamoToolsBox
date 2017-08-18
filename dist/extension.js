@@ -85,8 +85,6 @@
                     stringParam += auxStr;
                 }
                 url += stringParam
-                console.log(keySet);
-                console.log(stringParam);
             }
 
             http.open("POST", url, true);
@@ -928,21 +926,16 @@
     function _addSwitchDataSource() {
         var execute = function(event) {
             var input = event.target;
-            console.log(input);
             if (input && input.value) {
-                console.log(input.value);
                 var url = "/dyn/admin/nucleus/atg/dynamo/admin/jdbcbrowser/ConnectionPoolPointer/";
                 var params = {
                     "propertyName": "connectionPool",
                     "newValue": input.value,
                     "change": "Change Value"
                 }
-                console.log(params);
-
                 DynamoToolBox.request.invoke(url, params, null);
             }
         };
-
         var method = [{
                 "value": "/atg/dynamo/service/jdbc/JTDataSource",
                 "text": "CORE",
@@ -960,6 +953,25 @@
                 "text": "CATALOG_B",
             }
         ];
+        var count = 0;
+        var switchDataSourceInteval = setInterval(function() {
+            count++;
+            console.log(count);
+            if (unsafeWindow.datasources) {
+                clearInterval(switchDataSourceInteval);
+                console.log(unsafeWindow.datasources);
+                if (unsafeWindow.datasources && unsafeWindow.datasources.length > 0) {
+                    for (var i = 0; i < unsafeWindow.datasources.length; i++) {
+                        var current = unsafeWindow.datasources[i];
+                        var html = '<option value="' + current.value + '">' + current.text + '</option>';
+                        document.getElementById('switchDataSource').innerHTML += html;
+                    }
+                }
+            }
+            if (count > 10) {
+                clearInterval(switchDataSourceInteval);
+            }
+        }, 300);
 
         _createSelectOneElement("switchDataSource", "Switch Data Source", method, execute);
     }

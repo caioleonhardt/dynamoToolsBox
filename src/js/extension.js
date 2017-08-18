@@ -824,7 +824,6 @@
                 DynamoToolBox.request.invoke(url, params, null);
             }
         };
-
         var method = [{
                 "value": "/atg/dynamo/service/jdbc/JTDataSource",
                 "text": "CORE",
@@ -842,6 +841,23 @@
                 "text": "CATALOG_B",
             }
         ];
+        var count = 0;
+        var switchDataSourceInteval = setInterval(function() {
+            count++;
+            if (unsafeWindow.datasources) {
+                clearInterval(switchDataSourceInteval);
+                if (unsafeWindow.datasources && unsafeWindow.datasources.length > 0) {
+                    for (var i = 0; i < unsafeWindow.datasources.length; i++) {
+                        var current = unsafeWindow.datasources[i];
+                        var html = '<option value="' + current.value + '">' + current.text + '</option>';
+                        document.getElementById('switchDataSource').innerHTML += html;
+                    }
+                }
+            }
+            if (count > 10) {
+                clearInterval(switchDataSourceInteval);
+            }
+        }, 300);
 
         _createSelectOneElement("switchDataSource", "Switch Data Source", method, execute);
     }
