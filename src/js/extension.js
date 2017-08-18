@@ -1,57 +1,6 @@
 (function(window, unsafeWindow, DynamoToolBox) {
     'use strict';
 
-    if (window.console && console.info) {
-        console.info(CONSTANTS.welcomeMessage);
-    }
-
-    var _storage = {
-        _data: {},
-        setItem: function(id, val) { return this._data[id] = String(val); },
-        getItem: function(id) { return this._data.hasOwnProperty(id) ? this._data[id] : undefined; },
-        removeItem: function(id) { return delete this._data[id]; },
-        clear: function() { return this._data = {}; }
-    };
-
-    if (localStorage) {
-        _storage = localStorage;
-    }
-
-    function _injectPretify() {
-        var element = document.createElement("script");
-        element.src = "https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js";
-        element.defer = true;
-        document.getElementsByTagName('head')[0].appendChild(element);
-    }
-
-    function _remove() {
-        var elem = document.getElementById('dynamoTools');
-        if (elem) {
-            document.body.removeChild(elem);
-        }
-    }
-
-    function _toggleView() {
-        var elem = document.getElementById('contentToolsBox');
-        var target = event.target;
-        if (elem && target) {
-            if (elem.classList.contains('hide')) {
-                _storage.setItem('minimizedToolBox', false);
-                elem.classList.remove('hide');
-                target.innerText = '-';
-                return;
-            }
-            _storage.setItem('minimizedToolBox', true);
-            target.innerText = '+';
-            elem.classList.add('hide');
-        }
-    }
-
-    function _addComponentBox() {
-        var content = DynamoToolBox.render.renderHtmlTags('{{htmlBox}}');
-        document.body.innerHTML += content;
-    }
-
     function _addEnvironmentInfo() {
         var isProduction = false;
         _createTitleElement("whereAmI", "info green", '');
@@ -381,12 +330,12 @@
     function _addEventListeners() {
         var removeToolBox = document.getElementById('removeToolBox');
         if (removeToolBox) {
-            removeToolBox.addEventListener("click", _remove);
+            removeToolBox.addEventListener("click", DynamoToolBox.global.remove);
         }
 
         var toogleToolBox = document.getElementById('toogleToolBox');
         if (toogleToolBox) {
-            toogleToolBox.addEventListener("click", _toggleView);
+            toogleToolBox.addEventListener("click", DynamoToolBox.global.toggleView);
         }
 
         document.body.addEventListener('keypress', (function(e) {
@@ -411,7 +360,7 @@
                     }
                 }
             }
-            if (event.keyCode == 10 && !_isJDBCPage) {
+            if (event.keyCode == 10 && !DynamoToolBox.global.isJDBCPage()) {
                 var textArea = document.getElementsByTagName('textarea')[0];
                 if (textArea) {
                     var parentNode = textArea.parentElement.parentElement;
@@ -747,34 +696,6 @@
         return location.pathname.endsWith('/') ? location.pathname : location.pathname + "/";
     }
 
-    function _generateCss() {
-        var css = document.createElement('style');
-        css.type = 'text/css';
-
-        var zoom = '1';
-        if (window.innerWidth < 2000) {
-            zoom = '0.8';
-        }
-        if (window.innerWidth <= 1440) {
-            zoom = '0.7';
-        }
-
-        var styles = '{{css}}';
-
-        if (css.styleSheet) {
-            css.styleSheet.cssText = styles;
-        } else {
-            css.appendChild(document.createTextNode(styles));
-        }
-        document.getElementsByTagName("head")[0].appendChild(css);
-    }
-
-    function _validateHide() {
-        if ("true" == _storage.getItem('minimizedToolBox')) {
-            document.getElementById('contentToolsBox').classList.add('hide');
-        }
-    }
-
     function _validateLinks() {
         if (/cmpn-search.jhtml/.test(location.pathname)) {
             var linkList = document.getElementsByTagName('a');
@@ -862,45 +783,37 @@
         _createSelectOneElement("switchDataSource", "Switch Data Source", method, execute);
     }
 
-    var _isJDBCPage = false;
-
     function _initJDBCPage() {
-        var regex = /jdbcbrowser\/executeQuery.jhtml/;
-        if (regex.test(location.pathname)) {
+        if (DynamoToolBox.global.isJDBCPage()) {
+            DynamoToolBox.inject.injectPretify();
             _addDescTable();
-            _injectPretify();
             _addSwitchDataSource();
-            _isJDBCPage = true;
         }
     }
 
 
     function _initNucluesPage() {
-        var regex = /\/nucleus\//;
-        if (regex.test(location.pathname)) {
+        if (DynamoToolBox.global.isNucleusPage()) {
             _addViewComponent();
             _addViewConfiguration();
             _addInvokeMethodItem();
         }
-        var regexRepository = /\/nucleus\/.*Repository|.*Catalog/;
-        if (regexRepository.test(location.pathname)) {
+        if (DynamoToolBox.global.isRepositoryPage()) {
+            DynamoToolBox.inject.injectPretify();
             _addViewDefinitionFiles();
             _addPrintItem();
             _addQueryItem();
             _addSeeItem();
             _seePropertieDescritor();
-            _injectPretify();
             _addPrettifyTags();
             _initAutoComplete();
         }
     }
 
-
     function _init() {
-        _remove();
-        _addComponentBox();
-        _validateHide();
-        _generateCss();
+        DynamoToolBox.global.remove();
+        DynamoToolBox.global.addComponentBox();
+        DynamoToolBox.global.validateHide();
         _addEnvironmentInfo();
         _addSearch();
         _addExecuteQuery();
@@ -910,8 +823,11 @@
         _addFavoriteUrls();
         _addCopyrightBox();
         _validateLinks();
-    }
 
+        if (window.console && console.info) {
+            console.info(CONSTANTS.welcomeMessage);
+        }
+    }
 
     _init();
 })(window, unsafeWindow, DynamoToolBox);
