@@ -31,7 +31,7 @@ gulp.task('minifyCSS', function() {
 });
 
 gulp.task('compressHTML', function() {
-    return gulp.src('src/html/box.html')
+    return gulp.src('src/html/*.html')
         .pipe(htmlMinify({
             collapseWhitespace: true
         }))
@@ -50,6 +50,7 @@ gulp.task('replaceCSSInJS', function() {
 gulp.task('replaceHTMLInJS', function() {
     return gulp.src('dist/extension.js')
         .pipe(replace('{{htmlBox}}', fs.readFileSync('build/html/box.min.html', 'utf8')))
+        .pipe(replace('{{htmlLink}}', fs.readFileSync('build/html/link.min.html', 'utf8')))
         .pipe(gulp.dest('dist'));
 });
 

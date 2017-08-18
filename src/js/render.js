@@ -4,7 +4,7 @@
     var render = (function() {
         'use strict';
 
-        function renderHtmlTags(html) {
+        function renderHtmlTags(html, data) {
             var regex = /\{\{([a-zA-Z\.]*)\}\}/g;
             var str = html;
             var replacedString = str;
@@ -18,6 +18,9 @@
                     var replaceText = match[0];
                     try {
                         var replaceValue = eval(match[1]);
+                        if (!replaceValue) {
+                            replaceValue = "";
+                        }
                         replacedString = replacedString.replace(replaceText, replaceValue);
                     } catch (e) {
                         replacedString = replacedString.replace(replaceText, '');

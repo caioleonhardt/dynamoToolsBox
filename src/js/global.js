@@ -53,6 +53,10 @@
             }
         }
 
+        function resolvedPathName() {
+            return location.pathname.endsWith('/') ? location.pathname : location.pathname + "/";
+        }
+
 
         return {
             remove: remove,
@@ -61,7 +65,8 @@
             isNucleusPage: isNucleusPage,
             isRepositoryPage: isRepositoryPage,
             validateHide: validateHide,
-            addComponentBox: addComponentBox
+            addComponentBox: addComponentBox,
+            resolvedPathName: resolvedPathName
         }
     })();
 

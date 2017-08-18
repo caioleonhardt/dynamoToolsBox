@@ -24,11 +24,14 @@
 
         }
 
+        var scope = {};
+
         _init();
 
         return {
             config: config,
-            storage: storage
+            storage: storage,
+            scope: scope
         }
     })();
 

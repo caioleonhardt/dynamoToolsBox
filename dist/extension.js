@@ -24,11 +24,14 @@
 
         }
 
+        var scope = {};
+
         _init();
 
         return {
             config: config,
-            storage: storage
+            storage: storage,
+            scope: scope
         }
     })();
 
@@ -51,7 +54,7 @@
     var render = (function() {
         'use strict';
 
-        function renderHtmlTags(html) {
+        function renderHtmlTags(html, data) {
             var regex = /\{\{([a-zA-Z\.]*)\}\}/g;
             var str = html;
             var replacedString = str;
@@ -65,6 +68,9 @@
                     var replaceText = match[0];
                     try {
                         var replaceValue = eval(match[1]);
+                        if (!replaceValue) {
+                            replaceValue = "";
+                        }
                         replacedString = replacedString.replace(replaceText, replaceValue);
                     } catch (e) {
                         replacedString = replacedString.replace(replaceText, '');
@@ -184,6 +190,10 @@
             }
         }
 
+        function resolvedPathName() {
+            return location.pathname.endsWith('/') ? location.pathname : location.pathname + "/";
+        }
+
 
         return {
             remove: remove,
@@ -192,7 +202,8 @@
             isNucleusPage: isNucleusPage,
             isRepositoryPage: isRepositoryPage,
             validateHide: validateHide,
-            addComponentBox: addComponentBox
+            addComponentBox: addComponentBox,
+            resolvedPathName: resolvedPathName
         }
     })();
 
@@ -250,10 +261,6 @@
 })(window, unsafeWindow, DynamoToolBox);
 (function(window, unsafeWindow, DynamoToolBox) {
     'use strict';
-
-    if (window.console && console.info) {
-        console.info(CONSTANTS.welcomeMessage);
-    }
 
     function _addEnvironmentInfo() {
         var isProduction = false;
@@ -349,7 +356,7 @@
             var target = event.target;
             var input = target.parentNode.getElementsByTagName('input')[0];
             if (input && input.value) {
-                var message = _resolvedPathName() + "?action=seetmpl&itemdesc=" + input.value + "#showProperties";
+                var message = DynamoToolBox.global.resolvedPathName() + "?action=seetmpl&itemdesc=" + input.value + "#showProperties";
                 window.location = message;
             }
         };
@@ -363,7 +370,7 @@
                 var target = event.target;
                 var input = target.parentNode.getElementsByTagName('input');
                 if (input[0] && input[0].value) {
-                    var message = _resolvedPathName() + "?action=seeitems&itemdesc=" + input[0].value;
+                    var message = DynamoToolBox.global.resolvedPathName() + "?action=seeitems&itemdesc=" + input[0].value;
                     if (input[1] && input[1].value) {
                         message += "&itemid=" + input[1].value;
                     }
@@ -416,22 +423,46 @@
     }
 
     function _addViewConfiguration() {
-        var message = _resolvedPathName() + "?propertyName=serviceConfiguration";
-        _createLinkElement("viewServiceConfiguration", "View Service Configuration", message);
+        var data = {
+            id: "viewServiceConfiguration",
+            label: "View Service Configuration",
+            url: DynamoToolBox.global.resolvedPathName() + "?propertyName=serviceConfiguration"
+        }
+        var message = DynamoToolBox.render.renderHtmlTags('<div><label>{{data.label}}:&nbsp;</label><a id="{{data.id}}" href="{{data.url}}">GOTO</a></div>', data);
+
+        _createElement("LI", null, "execute", message, "contentToolsBox");
     }
 
     function _addViewDefinitionFiles() {
-        var message = _resolvedPathName() + "?propertyName=definitionFiles";
-        _createLinkElement("viewDefinitionFiles", "View Definition Configuration", message);
+        var data = {
+            id: "viewDefinitionFiles",
+            label: "View Service Definition",
+            url: DynamoToolBox.global.resolvedPathName() + "?propertyName=definitionFiles"
+        }
+        var message = DynamoToolBox.render.renderHtmlTags('<div><label>{{data.label}}:&nbsp;</label><a id="{{data.id}}" href="{{data.url}}">GOTO</a></div>', data);
+
+        _createElement("LI", null, "execute", message, "contentToolsBox");
     }
 
     function _addViewComponent() {
-        _createLinkElement("viewComponent", "View Component", _resolvedPathName());
+        var data = {
+            id: "viewComponent",
+            label: "View  Component",
+            url: DynamoToolBox.global.resolvedPathName()
+        }
+        var message = DynamoToolBox.render.renderHtmlTags('<div><label>{{data.label}}:&nbsp;</label><a id="{{data.id}}" href="{{data.url}}">GOTO</a></div>', data);
+
+        _createElement("LI", null, "execute", message, "contentToolsBox");
     }
 
     function _addExecuteQuery() {
-        var message = "/dyn/admin/atg/dynamo/admin/en/jdbcbrowser/executeQuery.jhtml";
-        _createLinkElement("executeQuery", "Execute Query", message);
+        var data = {
+            id: "executeQuery",
+            label: "Execute  Query",
+            url: "/dyn/admin/atg/dynamo/admin/en/jdbcbrowser/executeQuery.jhtml"
+        }
+        var message = DynamoToolBox.render.renderHtmlTags('<div><label>{{data.label}}:&nbsp;</label><a id="{{data.id}}" href="{{data.url}}">GOTO</a></div>', data);
+        _createElement("LI", null, "execute", message, "contentToolsBox");
     }
 
     function _addSearch() {
@@ -497,14 +528,6 @@
                 }
             });
         }
-    }
-
-    function _createLinkElement(id, label, url) {
-        var elem = '<div>' +
-            '<label>' + label + ':&nbsp;</label>' +
-            '<a id="' + id + '" href="' + url + '">GOTO</button>' +
-            '</div>';
-        _createElement("LI", null, "execute", elem, "contentToolsBox");
     }
 
     function _createButtonElement(id, label, execute) {
@@ -946,10 +969,6 @@
         return value.replace('<![CDATA[', '').replace(']]>', '');
     }
 
-    function _resolvedPathName() {
-        return location.pathname.endsWith('/') ? location.pathname : location.pathname + "/";
-    }
-
     function _validateLinks() {
         if (/cmpn-search.jhtml/.test(location.pathname)) {
             var linkList = document.getElementsByTagName('a');
@@ -1077,8 +1096,11 @@
         _addFavoriteUrls();
         _addCopyrightBox();
         _validateLinks();
-    }
 
+        if (window.console && console.info) {
+            console.info(CONSTANTS.welcomeMessage);
+        }
+    }
 
     _init();
 })(window, unsafeWindow, DynamoToolBox);
