@@ -12,9 +12,9 @@ TAMPERMONKEY TEMPLATE
     // ==UserScript==
     // @name         ATG Dynamo Tools Box
     // @description  JavaScript Extension for ATG Dynamo
-    // @version      0.2
+    // @version      1.0
     // @match        */dyn/admin/*
-    // @require      https://rawgit.com/mdsbarbieri/dynamoToolsBox/upgrade/dist/extension.min.js
+    // @require      https://rawgit.com/mdsbarbieri/dynamoToolsBox/master/dist/extension.min.js
     // ==/UserScript==
 
     unsafeWindow.mappedHosts = new Map([
