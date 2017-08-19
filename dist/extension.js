@@ -5,7 +5,7 @@
 
         var config = {
             appName: "Dynamo Tool Box",
-            copyright: "Created by Matheus Barbieri - Contributions by Caio Leonhardt - version 0.2.1"
+            copyright: "Created by Matheus Barbieri - Contributions by Caio Leonhardt - version 1.0.0"
         };
 
         var storage = {
