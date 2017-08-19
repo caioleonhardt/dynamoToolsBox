@@ -5,7 +5,7 @@
 
         var config = {
             appName: "Dynamo Tool Box",
-            copyright: "Created by Matheus Barbieri - Contributions by Caio Leonhardt - version 0.2.1"
+            copyright: "Created by Matheus Barbieri - Contributions by Caio Leonhardt - version 1.0.0"
         };
 
         var storage = {
@@ -24,14 +24,31 @@
 
         }
 
-        var scope = {};
+
+        var datasources = [{
+                "value": "/atg/dynamo/service/jdbc/JTDataSource",
+                "text": "CORE",
+            },
+            {
+                "value": "/atg/dynamo/service/jdbc/SwitchingDataSource",
+                "text": "SWITCH",
+            },
+            {
+                "value": "/atg/dynamo/service/jdbc/SwitchingDataSourceA",
+                "text": "CATALOG_A",
+            },
+            {
+                "value": "/atg/dynamo/service/jdbc/SwitchingDataSourceB",
+                "text": "CATALOG_B",
+            }
+        ];
 
         _init();
 
         return {
             config: config,
             storage: storage,
-            scope: scope
+            datasources: datasources
         }
     })();
 

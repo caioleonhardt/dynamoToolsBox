@@ -83,14 +83,14 @@
                     fieldText.value = message;
                 }
                 setTimeout(function() {
-                    _setCaretPosition(fieldText, message.lastIndexOf('> =') + 1);
+                    DynamoToolBox.global.setCaretPosition(fieldText, message.lastIndexOf('> =') + 1);
                 }, 10);
             };
             _createInputElement("queryItem", "Query Item", "Item Descriptor", execute, true);
         }
     }
 
-    function _seePropertieDescritor() {
+    function _addSeePropertieDescritor() {
         var execute = function() {
             var target = event.target;
             var input = target.parentNode.getElementsByTagName('input')[0];
@@ -128,37 +128,7 @@
                 location = target.value;
             }
         };
-
-        _createSelectOneElement("invokeMethod", "Invoke Method", _loadMethods(), execute);
-    }
-
-    function _loadMethods() {
-        var titleElements = document.getElementsByTagName('h1');
-        var methodsArr = [];
-        if (titleElements) {
-            for (var i = 0; i < titleElements.length; i++) {
-                if (titleElements[i].innerText == 'Methods') {
-                    var methodsTable = titleElements[i].nextElementSibling;
-                    if (methodsTable) {
-                        var lines = methodsTable.getElementsByTagName('tr');
-                        if (lines) {
-                            for (var j = 0; j < lines.length; j++) {
-                                var td = lines[j].getElementsByTagName('td')[0];
-                                if (td && td.getElementsByTagName('a')) {
-                                    var link = td.getElementsByTagName('a')[0];
-                                    var method = {
-                                        "value": link.getAttribute('href'),
-                                        "text": link.innerText,
-                                    };
-                                    methodsArr.push(method);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return methodsArr;
+        _createSelectOneElement("invokeMethod", "Invoke Method", DynamoToolBox.global.loadMethods(), execute);
     }
 
     function _addViewConfiguration() {
@@ -169,7 +139,7 @@
         }
         var message = DynamoToolBox.render.renderHtmlTags('{{htmlLink}}', data);
 
-        _createElement("LI", null, "execute", message, "contentToolsBox");
+        DynamoToolBox.global.createElement("LI", null, "execute", message, "contentToolsBox");
     }
 
     function _addViewDefinitionFiles() {
@@ -180,7 +150,7 @@
         }
         var message = DynamoToolBox.render.renderHtmlTags('{{htmlLink}}', data);
 
-        _createElement("LI", null, "execute", message, "contentToolsBox");
+        DynamoToolBox.global.createElement("LI", null, "execute", message, "contentToolsBox");
     }
 
     function _addViewComponent() {
@@ -191,7 +161,7 @@
         }
         var message = DynamoToolBox.render.renderHtmlTags('{{htmlLink}}', data);
 
-        _createElement("LI", null, "execute", message, "contentToolsBox");
+        DynamoToolBox.global.createElement("LI", null, "execute", message, "contentToolsBox");
     }
 
     function _addExecuteQuery() {
@@ -201,7 +171,7 @@
             url: "/dyn/admin/atg/dynamo/admin/en/jdbcbrowser/executeQuery.jhtml"
         }
         var message = DynamoToolBox.render.renderHtmlTags('{{htmlLink}}', data);
-        _createElement("LI", null, "execute", message, "contentToolsBox");
+        DynamoToolBox.global.createElement("LI", null, "execute", message, "contentToolsBox");
     }
 
     function _addSearch() {
@@ -217,514 +187,21 @@
         _createInputElement("searchMethod", "Search Component", "Query", execute, false);
     }
 
-    function _setCaretPosition(elem, caretPos) {
-        if (elem !== null) {
-            if (elem.selectionStart) {
-                elem.focus();
-                elem.setSelectionRange(caretPos, caretPos);
-            } else {
-                elem.focus();
-            }
-        }
-    }
-
-    function _createTitleElement(id, classList, content) {
-        var elem = '<h3>' + content + '</h3>';
-        _createElement("LI", id, classList, elem, "contentToolsBox");
-    }
-
-    function _createTextElement(id, classList, content) {
-        var elem = '<p>' + content + '</p>';
-        _createElement("LI", id, classList, elem, "contentToolsBox");
-    }
-
-    function _createListElement(id, classList, label, content) {
-        var elem = '<div>' +
-            '<label>' + label + ':&nbsp;</label>' +
-            '<div>' + content + '</div>' +
-            '</div>';
-        _createElement("LI", id, classList, elem, "contentToolsBox");
-    }
-
-    function _createInputElement(id, label, placholder, execute, autcomplete) {
-        var id1 = 'input' + id + new Date().getTime();
-        var elem = '<div>' +
-            '<label>' + label + ':&nbsp;</label>' +
-            '<input type="text" placeholder="' + placholder + '" autocomplete="' + autcomplete + '" id="' + id1 + '"></input>' +
-            '<button id="' + id + '">OK</button>' +
-            '</div>';
-        _createElement("LI", null, "execute", elem, "contentToolsBox");
-
-        document.getElementById(id).addEventListener("click", execute);
-        var input = document.getElementById(id).parentNode.getElementsByTagName('input')[0];
-        if (input) {
-            input.addEventListener("keydown", function(e) {
-                var keyCode = e.keyCode;
-                if (keyCode == 13) {
-                    setTimeout(function() {
-                        document.getElementById(id).click();
-                    }, 300);
-                }
-            });
-        }
-    }
-
-    function _createButtonElement(id, label, execute) {
-        var elem = '<div>' +
-            '<label>' + label + ':&nbsp;</label>' +
-            '<button id="' + id + '">OK</button>' +
-            '</div>';
-        _createElement("LI", null, "execute", elem, "contentToolsBox");
-
-        document.getElementById(id).addEventListener("click", execute);
-    }
-
-    function _createSelectOneElement(id, label, list, execute) {
-        if (list.length < 1) {
-            return;
-        }
-
-        var elem = '<div>' +
-            '<label>' + label + ':&nbsp;</label>' +
-            '<select id="' + id + '">' +
-            '<option value="">Selecione</option>';
-        if (list) {
-            for (var i = 0; i < list.length; i++) {
-                elem += '<option value="' + list[i].value + '">' + list[i].text + '</option>';
-            }
-        }
-        elem += '</select></div>';
-        _createElement("LI", null, "execute", elem, "contentToolsBox");
-
-        document.getElementById(id).addEventListener("change", execute);
-    }
-
-    function _createDoubleInputElement(id, label, placholder1, placholder2, execute, autocomplete, removeKeyEvent) {
-        var id1 = 'input1' + id + new Date().getTime();
-        var id2 = 'input2' + id + new Date().getTime();
-
-        var elem = '<div>' +
-            '<label>' + label + ':&nbsp;</label>' +
-            '<input type="text" placeholder="' + placholder1 + '" autocomplete="' + autocomplete + '" data-gotosecond="true" id="' + id1 + '"></input>' +
-            '<input type="text" placeholder="' + placholder2 + '" id="' + id2 + '"></input>' +
-            '<button id="' + id + '">OK</button>' +
-            '</div>';
-        _createElement("LI", null, "execute", elem, "contentToolsBox");
-        document.getElementById(id).addEventListener("click", execute);
-        var inputs = document.getElementById(id).parentNode.getElementsByTagName('input');
-        if (inputs) {
-            for (var i = 0; i < inputs.length; i++) {
-                if (!removeKeyEvent) {
-                    inputs[i].addEventListener("keydown", function(e) {
-                        var keyCode = e.keyCode;
-                        if (keyCode == 13) {
-                            setTimeout(function() {
-                                document.getElementById(id).click();
-                            }, 100);
-                        }
-                    });
-                }
-            }
-        }
-    }
-
-    function _createElement(type, id, classList, content, parentId) {
-        var parentNode = document.body;
-        if (parentId) {
-            parentNode = document.getElementById(parentId);
-        }
-
-        var elem = document.createElement(type);
-        if (id) {
-            elem.setAttribute('id', id);
-        }
-        elem.setAttribute('class', classList);
-        elem.innerHTML = content;
-        parentNode.appendChild(elem);
-    }
-
-    function _addEventListeners() {
-        var removeToolBox = document.getElementById('removeToolBox');
-        if (removeToolBox) {
-            removeToolBox.addEventListener("click", DynamoToolBox.global.remove);
-        }
-
-        var toogleToolBox = document.getElementById('toogleToolBox');
-        if (toogleToolBox) {
-            toogleToolBox.addEventListener("click", DynamoToolBox.global.toggleView);
-        }
-
-        document.body.addEventListener('keypress', (function(e) {
-            _invokeKeyEvent(e);
-        }));
-    }
-
-    function _invokeKeyEvent(event) {
-        if (event && event.ctrlKey) {
-            if (event.shiftKey) {
-                if (event.keyCode == 6) {
-                    var elem = document.getElementById('searchMethod');
-                    if (elem) {
-                        var parent = elem.parentElement;
-                        if (parent) {
-                            var input = parent.getElementsByTagName('input')[0].focus();
-                            if (input) {
-                                input.focus();
-                            }
-                        }
-
-                    }
-                }
-            }
-            if (event.keyCode == 10 && !DynamoToolBox.global.isJDBCPage()) {
-                var textArea = document.getElementsByTagName('textarea')[0];
-                if (textArea) {
-                    var parentNode = textArea.parentElement.parentElement;
-                    if (parentNode.nodeName == 'FORM') {
-                        parentNode.submit();
-                    }
-                }
-            }
-        }
-    }
-
-    function _executePrettify() {
-        var init = false;
-        var pres = document.getElementsByTagName('pre');
-        if (pres) {
-            for (var i = 0; i < pres.length; i++) {
-                pres[i].classList.add('prettyprint');
-            }
-            init = true;
-        }
-
-        var code = document.getElementsByTagName('code');
-        if (code) {
-            for (var j = 0; j < code.length; j++) {
-                code[j].classList.add('language-xml');
-            }
-        }
-        if (init && typeof PR != 'undefined') {
-            PR.prettyPrint();
-        }
-        return init;
-    }
-
-
     function _addPrettifyTags() {
         var prettifyInteval = setInterval(function() {
-            if (_executePrettify()) {
-                _addItemDescriptorEvent();
+            if (DynamoToolBox.global.executePrettify()) {
+                DynamoToolBox.event.addItemDescriptorEvent();
                 setTimeout(function() {
-                    _addPropertyEvent();
+                    DynamoToolBox.event.addPropertyEvent();
                 }, 500);
                 clearInterval(prettifyInteval);
             }
         }, 300);
     }
 
-    var itensDescriptors = [];
-
-    function _initAutoComplete() {
-        _loadItemDescriptors();
-        _addSelectAutoCompleteEvent();
-        var box = document.getElementById('dynamoTools');
-        var inputs = box.getElementsByTagName('input');
-        document.body.addEventListener('click', _hideAutoComplete);
-        if (inputs) {
-            for (var i = 0; i < inputs.length; i++) {
-                var elem = inputs[i];
-                if ("true" == elem.getAttribute('autocomplete')) {
-                    elem.addEventListener("keyup", _autoCompleteEvent);
-                    elem.addEventListener("focus", _autoCompleteEvent);
-                }
-
-            }
-        }
-    }
-
-    function _loadItemDescriptors() {
-        var ancor = document.getElementsByName('listItemDescriptors')[0];
-        if (ancor) {
-            var table = ancor.nextElementSibling;
-            var ths = table.getElementsByTagName('th');
-            if (ths) {
-                for (var i = 0; i < ths.length; i++) {
-                    if (i > 3) {
-                        itensDescriptors.push(ths[i].innerHTML);
-                    }
-                }
-            }
-        }
-    }
-
-    var _hasAutocompleteInView = false;
-
-    function _autoCompleteEvent() {
-        var target = event.target;
-        var value = target.value;
-        if (value.length == 0) {
-            return;
-        }
-
-        var parentNode = target.parentNode;
-        var targetId = target.getAttribute('id');
-        var id = "auto" + targetId;
-        var elementExists = true;
-        var elem = document.getElementById(id);
-        if (!elem) {
-            elementExists = false;
-            elem = document.createElement('DIV');
-            if (id) {
-                elem.setAttribute('id', id);
-            }
-            elem.setAttribute('targetId', targetId);
-            elem.setAttribute('class', 'autocomplete js-autocomplete visible');
-        }
-
-        var content = '';
-        for (var i in itensDescriptors) {
-            if (itensDescriptors[i].startsWith(value)) {
-                content += '<span>' + itensDescriptors[i] + '</span>';
-            }
-        }
-        elem.innerHTML = content;
-        _hasAutocompleteInView = true;
-        if (!elementExists) {
-            parentNode.appendChild(elem);
-            return;
-        }
-        elem.classList.add('visible');
-    }
-
-    function _addSelectAutoCompleteEvent() {
-        document.body.addEventListener("keyup", function(e) {
-            if (_hasAutocompleteInView) {
-                _navigateAtAutoComplete(e);
-            }
-        });
-    }
-
-    var _currentActiveList = 0;
-    var _spanLength = 0;
-    var _forceHide = false;
-
-    function _navigateAtAutoComplete(e) {
-        var isArrowKey = false;
-        var isEnter = false;
-        if (e.keyCode == '38') {
-            if (_currentActiveList > 0) {
-                _currentActiveList--;
-            }
-            isArrowKey = true;
-        }
-        if (e.keyCode == '40') {
-            if (_currentActiveList < _spanLength - 1) {
-                _currentActiveList++;
-            }
-            isArrowKey = true;
-        }
-        if (e.keyCode == '13') {
-            isEnter = true;
-        }
-        if (e.keyCode == '9') {
-            _forceHide = true;
-            _hideAutoComplete();
-        }
-        if (isArrowKey || isEnter) {
-            var elements = document.getElementsByClassName('js-autocomplete');
-            if (elements) {
-                for (var i = 0; i < elements.length; i++) {
-                    var elem = elements[i];
-                    if (elem.classList.contains('visible')) {
-                        var itens = elem.getElementsByTagName('span');
-                        _spanLength = itens.length;
-                        if (itens) {
-                            if (isEnter) {
-                                var targetId = elem.getAttribute('targetId');
-                                var input = document.getElementById(targetId);
-                                if (input) {
-                                    var active = itens[_currentActiveList];
-                                    if (active) {
-                                        input.value = active.innerText;
-                                        _forceHide = true;
-                                        _hideAutoComplete();
-                                    }
-                                }
-                                return;
-                            }
-                            for (var j = 0; j < itens.length; j++) {
-                                var current = itens[j];
-                                current.classList.remove('active');
-                                if (j == _currentActiveList) {
-                                    current.classList.add('active');
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    function _hideAutoComplete() {
-        var elements = document.getElementsByClassName('js-autocomplete');
-        if (elements) {
-            for (var i = 0; i < elements.length; i++) {
-                var elem = elements[i];
-                if (elem) {
-                    var target = event.target;
-                    if (!_forceHide && target && target.getAttribute('id') == elem.getAttribute('targetId')) {
-                        break;
-                    }
-                    _forceHide = false;
-                    elem.classList.remove('visible');
-                    _hasAutocompleteInView = false;
-                    _currentActiveList = 0;
-                    _spanLength = 0;
-                }
-            }
-        }
-    }
-
-    function _addPropertyEvent() {
-        var atvList = document.getElementsByClassName('atv');
-        if (atvList && !/.*definitionFiles.*/.test(location.search)) {
-            for (var i = 0; i < atvList.length; i++) {
-                var elem = atvList[i];
-                var prevElementText = elem.previousElementSibling.previousElementSibling.innerHTML;
-                if ("id" != prevElementText && "item-descriptor" != prevElementText) {
-                    elem.addEventListener("click", _populatePropertyQuery);
-                }
-            }
-        }
-    }
-
-    function _addItemDescriptorEvent() {
-        var itemDescAutoCompleteInteval = setInterval(function() {
-            var atvList = document.getElementsByClassName('atn');
-            if (atvList[0]) {
-                clearInterval(itemDescAutoCompleteInteval);
-                for (var i = 0; i < atvList.length; i++) {
-                    var elem = atvList[i];
-                    if ("item-descriptor" == elem.innerText) {
-                        var itemDesc = elem.nextElementSibling.nextElementSibling.innerHTML.replace(/\"/g, '');
-                        var tagId = elem.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling;
-                        if ("id" == tagId.innerText) {
-                            var id = tagId.nextElementSibling.nextElementSibling.innerText;
-                            var replacedId = id.replace(/\"/g, '');
-                            elem.classList.add('itenDescAutoComplete');
-                            var htmlContent = '<div class="itemDescActions" data-id="' + replacedId + '" data-itemdesc="' + itemDesc + '">';
-                            htmlContent += '<div id="remove_' + replacedId + '">remove</div>';
-                            htmlContent += '<div id="update_' + replacedId + '">update</div>';
-                            htmlContent += '<div id="print_' + replacedId + '">print</div>';
-                            htmlContent += '</div>';
-
-                            elem.innerHTML += htmlContent;
-                            document.getElementById('remove_' + replacedId).addEventListener("click", _removeItemDescEvent);
-                            document.getElementById('update_' + replacedId).addEventListener("click", __updateItemDescEvent);
-                            document.getElementById('print_' + replacedId).addEventListener("click", __printItemDescEvent);
-                        }
-                    }
-                }
-            }
-        }, 300);
-    }
-
-    function _removeItemDescEvent() {
-        var target = event.target;
-        var parent = target.parentElement;
-        var dataId = parent.getAttribute('data-id');
-        var dataItemDesc = parent.getAttribute('data-itemdesc');
-        var removeItemText = '<remove-item item-descriptor="' + dataItemDesc + '" id="' + dataId + '"/>';
-        var fieldText = document.getElementsByTagName('textarea')[0];
-        if (fieldText) {
-            var message = '\n';
-            message += removeItemText;
-            fieldText.value += message;
-            fieldText.focus();
-        }
-    }
-
-    function __updateItemDescEvent() {
-        var target = event.target;
-        var parent = target.parentElement;
-        var dataId = parent.getAttribute('data-id');
-        var dataItemDesc = parent.getAttribute('data-itemdesc');
-        var updateItemText = '<update-item item-descriptor="' + dataItemDesc + '" id="' + dataId + '">';
-        updateItemText += '\n\t<set-property name=""><![CDATA[]]></set-property>';
-        updateItemText += '\n</update-item>';
-
-        var fieldText = document.getElementsByTagName('textarea')[0];
-        if (fieldText) {
-            var message = '\n';
-            message += updateItemText;
-            fieldText.value += message;
-            fieldText.focus();
-        }
-    }
-
-    function __printItemDescEvent() {
-        var target = event.target;
-        var parent = target.parentElement;
-        var dataId = parent.getAttribute('data-id');
-        var dataItemDesc = parent.getAttribute('data-itemdesc');
-        var printItemText = '<print-item item-descriptor="' + dataItemDesc + '" id="' + dataId + '"/>';
-        var fieldText = document.getElementsByTagName('textarea')[0];
-        if (fieldText) {
-            var message = '\n';
-            message += printItemText;
-            fieldText.value += message;
-            fieldText.focus();
-        }
-    }
-
-    function _populatePropertyQuery() {
-        var elem = event.target;
-        var value = elem.nextElementSibling.nextElementSibling;
-        if (value) {
-            var fieldText = document.getElementsByTagName('textarea')[0];
-            if (fieldText) {
-                var message = fieldText.value;
-                message += '\n';
-                var regularizedString = _regularizeString(value.innerText);
-                if (regularizedString.indexOf(',') > 0) {
-                    var splittedString = regularizedString.split(',');
-                    for (var i = 0; i < splittedString.length; i++) {
-                        message += '<print-item item-descriptor=' + elem.innerText + ' id="' + splittedString[i] + '"/>';
-                        message += '\n';
-                    }
-
-                } else {
-                    message += '<print-item item-descriptor=' + elem.innerText + ' id="' + regularizedString + '"/>';
-                }
-                fieldText.value = message;
-                fieldText.focus();
-            }
-        }
-    }
-
-    function _regularizeString(value) {
-        return value.replace('<![CDATA[', '').replace(']]>', '');
-    }
-
-    function _validateLinks() {
-        if (/cmpn-search.jhtml/.test(location.pathname)) {
-            var linkList = document.getElementsByTagName('a');
-            if (linkList) {
-                for (var i = 0; i < linkList.length; i++) {
-                    var elem = linkList[i];
-                    if (/\/\//.test(elem.getAttribute('href'))) {
-                        elem.setAttribute('href', elem.getAttribute('href').replace('//', '/'));
-                    }
-                }
-            }
-        }
-    }
-
     function _addFavoriteUrls() {
         var id = 'favoriteLinks';
-        _createElement("LI", id, "favorites", '', "contentToolsBox");
+        DynamoToolBox.global.createElement("LI", id, "favorites", '', "contentToolsBox");
         var count = 0;
         var favoritesInteval = setInterval(function() {
             count++;
@@ -757,23 +234,9 @@
                 DynamoToolBox.request.invoke(url, params, null);
             }
         };
-        var method = [{
-                "value": "/atg/dynamo/service/jdbc/JTDataSource",
-                "text": "CORE",
-            },
-            {
-                "value": "/atg/dynamo/service/jdbc/SwitchingDataSource",
-                "text": "SWITCH",
-            },
-            {
-                "value": "/atg/dynamo/service/jdbc/SwitchingDataSourceA",
-                "text": "CATALOG_A",
-            },
-            {
-                "value": "/atg/dynamo/service/jdbc/SwitchingDataSourceB",
-                "text": "CATALOG_B",
-            }
-        ];
+
+        var datasources = DynamoToolBox.datasources;
+
         var count = 0;
         var switchDataSourceInteval = setInterval(function() {
             count++;
@@ -792,7 +255,95 @@
             }
         }, 300);
 
-        _createSelectOneElement("switchDataSource", "Switch Data Source", method, execute);
+        _createSelectOneElement("switchDataSource", "Switch Data Source", datasources, execute);
+    }
+
+    function _createTitleElement(id, classList, content) {
+        var elem = '<h3>' + content + '</h3>';
+        DynamoToolBox.global.createElement("LI", id, classList, elem, "contentToolsBox");
+    }
+
+    function _createTextElement(id, classList, content) {
+        var elem = '<p>' + content + '</p>';
+        DynamoToolBox.global.createElement("LI", id, classList, elem, "contentToolsBox");
+    }
+
+    function _createInputElement(id, label, placeholder, execute, autcomplete) {
+        var data = {
+            id: id,
+            label: label,
+            placeholder: placeholder,
+            autcomplete: autcomplete,
+            inputId: 'input' + id + new Date().getTime()
+        }
+        var elem = DynamoToolBox.render.renderHtmlTags('{{htmlInput}}', data);
+
+        DynamoToolBox.global.createElement("LI", null, "execute", elem, "contentToolsBox");
+
+        document.getElementById(id).addEventListener("click", execute);
+        var input = document.getElementById(id).parentNode.getElementsByTagName('input')[0];
+        if (input) {
+            input.addEventListener("keydown", function(e) {
+                var keyCode = e.keyCode;
+                if (keyCode == 13) {
+                    setTimeout(function() {
+                        document.getElementById(id).click();
+                    }, 300);
+                }
+            });
+        }
+    }
+
+    function _createSelectOneElement(id, label, list, execute) {
+        if (list.length < 1) {
+            return;
+        }
+
+        var elem = '<div>' +
+            '<label>' + label + ':&nbsp;</label>' +
+            '<select id="' + id + '">' +
+            '<option value="">Selecione</option>';
+        if (list) {
+            for (var i = 0; i < list.length; i++) {
+                elem += '<option value="' + list[i].value + '">' + list[i].text + '</option>';
+            }
+        }
+        elem += '</select></div>';
+        DynamoToolBox.global.createElement("LI", null, "execute", elem, "contentToolsBox");
+
+        document.getElementById(id).addEventListener("change", execute);
+    }
+
+    function _createDoubleInputElement(id, label, placeholder1, placeholder2, execute, autocomplete, removeKeyEvent) {
+        var data = {
+            id: id,
+            label: label,
+            placeholder1: placeholder1,
+            placeholder2: placeholder2,
+            autocomplete: autocomplete,
+            inputId1: 'input1' + id + new Date().getTime(),
+            inputId2: 'input2' + id + new Date().getTime()
+        }
+        var elem = DynamoToolBox.render.renderHtmlTags('{{htmlDoubleInput}}', data);
+
+        DynamoToolBox.global.createElement("LI", null, "execute", elem, "contentToolsBox");
+        document.getElementById(id).addEventListener("click", execute);
+
+        var inputs = document.getElementById(id).parentNode.getElementsByTagName('input');
+        if (inputs) {
+            for (var i = 0; i < inputs.length; i++) {
+                if (!removeKeyEvent) {
+                    inputs[i].addEventListener("keydown", function(e) {
+                        var keyCode = e.keyCode;
+                        if (keyCode == 13) {
+                            setTimeout(function() {
+                                document.getElementById(id).click();
+                            }, 100);
+                        }
+                    });
+                }
+            }
+        }
     }
 
     function _initJDBCPage() {
@@ -802,7 +353,6 @@
             _addSwitchDataSource();
         }
     }
-
 
     function _initNucluesPage() {
         if (DynamoToolBox.global.isNucleusPage()) {
@@ -816,9 +366,9 @@
             _addPrintItem();
             _addQueryItem();
             _addSeeItem();
-            _seePropertieDescritor();
+            _addSeePropertieDescritor();
             _addPrettifyTags();
-            _initAutoComplete();
+            DynamoToolBox.autocomplete.initAutoComplete();
         }
     }
 
@@ -831,10 +381,10 @@
         _addExecuteQuery();
         _initJDBCPage();
         _initNucluesPage();
-        _addEventListeners();
+        DynamoToolBox.event.addEventListeners();
         _addFavoriteUrls();
         _addCopyrightBox();
-        _validateLinks();
+        DynamoToolBox.global.validateLinks();
 
         if (window.console && console.info) {
             console.info(CONSTANTS.welcomeMessage);

@@ -5,7 +5,7 @@
         'use strict';
 
         function renderHtmlTags(html, data) {
-            var regex = /\{\{([a-zA-Z\.]*)\}\}/g;
+            var regex = /\{\{([a-zA-Z1-9\.]*)\}\}/g;
             var str = html;
             var replacedString = str;
             var match;

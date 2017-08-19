@@ -15,6 +15,8 @@ gulp.task('concatJS', function() {
             'src/js/request.js',
             'src/js/global.js',
             'src/js/inject.js',
+            'src/js/autocomplete.js',
+            'src/js/event.js',
             'src/js/extension.js'
         ])
         .pipe(jsConcat('extension.js'))
@@ -51,6 +53,10 @@ gulp.task('replaceHTMLInJS', function() {
     return gulp.src('dist/extension.js')
         .pipe(replace('{{htmlBox}}', fs.readFileSync('build/html/box.min.html', 'utf8')))
         .pipe(replace('{{htmlLink}}', fs.readFileSync('build/html/link.min.html', 'utf8')))
+        .pipe(replace('{{htmlButton}}', fs.readFileSync('build/html/button.min.html', 'utf8')))
+        .pipe(replace('{{htmlInput}}', fs.readFileSync('build/html/input.min.html', 'utf8')))
+        .pipe(replace('{{htmlDoubleInput}}', fs.readFileSync('build/html/doubleInput.min.html', 'utf8')))
+        .pipe(replace('{{htmlItemDescEvent}}', fs.readFileSync('build/html/itemDescEvent.min.html', 'utf8')))
         .pipe(gulp.dest('dist'));
 });
 
