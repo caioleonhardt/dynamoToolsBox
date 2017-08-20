@@ -7,6 +7,20 @@ RECOMMENDED USE
     Copy the content of tampermonkey.js and paste in a new Tampermonkey (or similar) script. 
     Edit var mappedHosts and add your server addresses and nicknames
 
+FEATURES
+
+    KeyEvents
+
+        - CTRL + SHIFT + F = Focus on search elements
+        - CTRL + ENTER = Trigger submit textArea event
+
+    Autocomple item-descriptors on DynamoToolBox inputs
+    Makes it easier to perform actions like remove, update, and print through the blur event in the "item-descriptor" tag in the print-item xml
+    Prettify XML
+    Switch Datasources
+    Add favorites URLs
+    Define current environment
+
 TAMPERMONKEY TEMPLATE
 
     // ==UserScript==
