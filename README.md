@@ -9,17 +9,18 @@ RECOMMENDED USE
 
 FEATURES
 
-    KeyEvents
+    1 - KeyEvents
 
         - CTRL + SHIFT + F = Focus on search elements
         - CTRL + ENTER = Trigger submit textArea event
 
-    Autocomple item-descriptors on DynamoToolBox inputs
-    Makes it easier to perform actions like remove, update, and print through the blur event in the "item-descriptor" tag in the print-item xml
-    Prettify XML
-    Switch Datasources
-    Add favorites URLs
-    Define current environment
+    2 - Autocomple item-descriptors on DynamoToolBox inputs
+    3 - Makes it easier to perform actions like remove, update, and print through
+        the blur event in the "item-descriptor" tag in the print-item xml
+    4 - Prettify XML
+    5 - Switch Datasources
+    6 - Add favorites URLs
+    7 - Define current environment
 
 TAMPERMONKEY TEMPLATE
 
