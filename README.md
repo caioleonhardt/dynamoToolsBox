@@ -22,6 +22,10 @@ FEATURES
     6 - Add favorites URLs
     7 - Define current environment
 
+USER SCRIPT
+
+CLick here to add to Tampermonkey [userScript](https://rawgit.com/mdsbarbieri/dynamoToolsBox/master/extension.user.js)
+
 TAMPERMONKEY TEMPLATE
 
     // ==UserScript==
