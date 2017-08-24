@@ -24,7 +24,7 @@ FEATURES
 
 USER SCRIPT
 
-CLick here to add to Tampermonkey [userScript](https://rawgit.com/mdsbarbieri/dynamoToolsBox/master/extension.user.js)
+CLick [here](https://rawgit.com/mdsbarbieri/dynamoToolsBox/master/extension.user.js) to add to Tampermonkey 
 
 TAMPERMONKEY TEMPLATE
 
