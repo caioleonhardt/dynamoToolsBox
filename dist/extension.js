@@ -429,7 +429,10 @@
 
         var _hasAutocompleteInView = false;
 
-        function _autoCompleteEvent() {
+        function _autoCompleteEvent(event) {
+            if (!event) {
+                return;
+            }
             var target = event.target;
             var value = target.value;
             if (value.length == 0) {
