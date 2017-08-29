@@ -107,8 +107,8 @@
                         var elem = elements[i];
                         if (elem.classList.contains('visible')) {
                             var itens = elem.getElementsByTagName('span');
-                            _spanLength = itens.length;
                             if (itens) {
+                                _spanLength = itens.length;
                                 if (isEnter) {
                                     var targetId = elem.getAttribute('targetId');
                                     var input = document.getElementById(targetId);
@@ -142,7 +142,7 @@
                 for (var i = 0; i < elements.length; i++) {
                     var elem = elements[i];
                     if (elem) {
-                        var target = event.target;
+                        var target = elem.target;
                         if (!_forceHide && target && target.getAttribute('id') == elem.getAttribute('targetId')) {
                             break;
                         }
