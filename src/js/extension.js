@@ -48,7 +48,7 @@
                     fieldText.focus();
                 }
             };
-            _createInputElement("descTable", "Desc table", "Table Name", execute, false);
+            _createInputElement("descTable", "Desc table:", "Table Name", execute, false);
         }
     }
 
@@ -66,7 +66,7 @@
                     fieldText.focus();
                 }
             };
-            _createDoubleInputElement("printItem", "Print Item", "Item Descriptor", "Value", execute, true);
+            _createDoubleInputElement("printItem", "Print Item:", "Item Descriptor", "Value", execute, true);
         }
     }
 
@@ -86,7 +86,7 @@
                     DynamoToolBox.global.setCaretPosition(fieldText, message.lastIndexOf('> =') + 1);
                 }, 10);
             };
-            _createInputElement("queryItem", "Query Item", "Item Descriptor", execute, true);
+            _createInputElement("queryItem", "Query Item:", "Item Descriptor", execute, true);
         }
     }
 
@@ -99,7 +99,7 @@
                 window.location = message;
             }
         };
-        _createInputElement("setPropertyDescriptor", "See property description", "Item Descriptor", execute, true);
+        _createInputElement("setPropertyDescriptor", "See property description:", "Item Descriptor", execute, true);
     }
 
     function _addSeeItem() {
@@ -117,7 +117,7 @@
                     window.location = message;
                 }
             };
-            _createDoubleInputElement("seeItem", "See Item", "Item Descriptor", "Value", execute, true, true);
+            _createDoubleInputElement("seeItem", "See Item:", "Item Descriptor", "Value", execute, true, true);
         }
     }
 
@@ -128,7 +128,7 @@
                 location = target.value;
             }
         };
-        _createSelectOneElement("invokeMethod", "Invoke Method", DynamoToolBox.global.loadMethods(), execute);
+        _createSelectOneElement("invokeMethod", "Invoke Method:", DynamoToolBox.global.loadMethods(), execute);
     }
 
     function _addViewConfiguration() {

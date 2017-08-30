@@ -9,6 +9,19 @@
     zoom: ' + zoom + '
 }
 
+.dynamoToolsBox a {
+    text-decoration: none;
+}
+
+.dynamoToolsBox input:focus,
+.dynamoToolsBox select:focus {
+    outline: none;
+}
+
+.dynamoToolsBox select {
+    height: 21px;
+}
+
 .dynamoToolsBox h3 {
     color: #fff;
     text-align: center;
@@ -106,11 +119,11 @@ pre.prettyprint {
 }
 
 .dynamoToolsBox .autocomplete {
-    background-color: #eaeaea;
+    background-color: #f6f6f6;
     width: 95%;
-    border: 1px solid #c1c1c1;
-    border-top: 0px;
+    border-top: 0;
     overflow: hidden;
+    margin-top: 3px;
     display: none;
 }
 
@@ -122,11 +135,13 @@ pre.prettyprint {
     width: 100%;
     display: inline-block;
     padding: 3px;
+    font-style: italic
 }
 
 .dynamoToolsBox .autocomplete span.active {
-    background-color: #ffffff;
-    color: #009;
+    background-color: #fff;
+    color: #112d9b;
+    font-weight: 700;
 }
 
 .itemDescActions {
@@ -154,8 +169,8 @@ pre.prettyprint {
 }
 
 .dynamoToolsBox .favorites {
-    background-color: #f7f7f7;
-    padding-top: 0px;
+    background-color: #ffffff;
+    padding-top: 5px;
 }
 
 .dynamoToolsBox .favorites a {
@@ -167,4 +182,17 @@ pre.prettyprint {
 .dynamoToolsBox input[type=text] {
     width: 130px;
     margin-right: 3px;
+}
+
+.dynamoToolsBox button {
+    background-color: transparent;
+    border: 0px;
+    height: 21px;
+    color: #696969;
+    font-weight: 600;
+}
+
+.dynamoToolsBox button:hover {
+    background-color: #efefef;
+    cursor: pointer;
 }

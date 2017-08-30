@@ -166,7 +166,7 @@
         }
 
         function addComponentBox() {
-            var content = DynamoToolBox.render.renderHtmlTags('<div id="dynamoTools" class="dynamoToolsBox"><h3>{{DynamoToolBox.config.appName}}<span class="navigation remove" id="removeToolBox">X</span><span class="navigation toogle" id="toogleToolBox">-</span></h3><div><ul id="contentToolsBox"></ul></div></div>');
+            var content = DynamoToolBox.render.renderHtmlTags('<div id="dynamoTools" class="dynamoToolsBox"><h3>{{DynamoToolBox.config.appName}}<span class="navigation remove" id="removeToolBox">x</span><span class="navigation toogle" id="toogleToolBox">-</span></h3><div><ul id="contentToolsBox"></ul></div></div>');
             document.body.innerHTML += content;
         }
 
@@ -377,7 +377,7 @@
                 zoom = '0.7';
             }
 
-            var styles = '.dynamoToolsBox{position:fixed;top:0;right:-1px;width:405px;background-color:#696969;border:3px solid #ececec;overflow:hidden;zoom:' + zoom + '}.dynamoToolsBox h3{color:#fff;text-align:center;margin:10px}.dynamoToolsBox .navigation{position:absolute;top:0;background-color:#696969;cursor:pointer;width:41px;height:41px;text-align:center;vertical-align:middle;line-height:41px}.dynamoToolsBox .remove{right:0}.dynamoToolsBox .toogle{right:42px}.dynamoToolsBox ul{list-style:none;margin:0;padding:0}.dynamoToolsBox li{background-color:#fdfdfd;display:inline-block;width:100%;padding:10px}.dynamoToolsBox .hide{display:none}.dynamoToolsBox .info label{float:left;font-weight:700}.dynamoToolsBox .info div{float:left}.dynamoToolsBox .green{background-color:#abffa5}.dynamoToolsBox .red{background-color:red}.dynamoToolsBox .info h3{color:#2d2d2d;font-size:20px;margin:0}.dynamoToolsBox .execute:nth-child(odd){background-color:#f7f7f7}.dynamoToolsBox .execute label{float:left;font-weight:700}.dynamoToolsBox .execute div{float:left}pre.prettyprint{padding:0!important;border:0!important}.dynamoToolsBox .copyright p{padding:0;font-size:11px;margin:0;text-align:right;padding-right:20px}.atv{cursor:pointer}.dynamoToolsBox .autocomplete{background-color:#eaeaea;width:95%;border:1px solid #c1c1c1;border-top:0;overflow:hidden;display:none}.dynamoToolsBox .autocomplete.visible{display:block}.dynamoToolsBox .autocomplete span{width:100%;display:inline-block;padding:3px}.dynamoToolsBox .autocomplete span.active{background-color:#fff;color:#009}.itemDescActions{display:none;position:absolute;background:#fff;border:1px solid #898989;width:106px;left:79px;text-transform:capitalize;cursor:pointer}.itemDescActions div{padding:3px;color:#000}.itemDescActions div:hover{background-color:#f3f3f3}.itenDescAutoComplete:hover .itemDescActions{display:block}.dynamoToolsBox .favorites{background-color:#f7f7f7;padding-top:0}.dynamoToolsBox .favorites a{width:100%;display:inline-block;padding:5px 0}.dynamoToolsBox input[type=text]{width:130px;margin-right:3px}';
+            var styles = '.dynamoToolsBox{position:fixed;top:0;right:-1px;width:405px;background-color:#696969;border:3px solid #ececec;overflow:hidden;zoom:' + zoom + '}.dynamoToolsBox a{text-decoration:none}.dynamoToolsBox input:focus,.dynamoToolsBox select:focus{outline:0}.dynamoToolsBox select{height:21px}.dynamoToolsBox h3{color:#fff;text-align:center;margin:10px}.dynamoToolsBox .navigation{position:absolute;top:0;background-color:#696969;cursor:pointer;width:41px;height:41px;text-align:center;vertical-align:middle;line-height:41px}.dynamoToolsBox .remove{right:0}.dynamoToolsBox .toogle{right:42px}.dynamoToolsBox ul{list-style:none;margin:0;padding:0}.dynamoToolsBox li{background-color:#fdfdfd;display:inline-block;width:100%;padding:10px}.dynamoToolsBox .hide{display:none}.dynamoToolsBox .info label{float:left;font-weight:700}.dynamoToolsBox .info div{float:left}.dynamoToolsBox .green{background-color:#abffa5}.dynamoToolsBox .red{background-color:red}.dynamoToolsBox .info h3{color:#2d2d2d;font-size:20px;margin:0}.dynamoToolsBox .execute:nth-child(odd){background-color:#f7f7f7}.dynamoToolsBox .execute label{float:left;font-weight:700}.dynamoToolsBox .execute div{float:left}pre.prettyprint{padding:0!important;border:0!important}.dynamoToolsBox .copyright p{padding:0;font-size:11px;margin:0;text-align:right;padding-right:20px}.atv{cursor:pointer}.dynamoToolsBox .autocomplete{background-color:#f6f6f6;width:95%;border-top:0;overflow:hidden;margin-top:3px;display:none}.dynamoToolsBox .autocomplete.visible{display:block}.dynamoToolsBox .autocomplete span{width:100%;display:inline-block;padding:3px;font-style:italic}.dynamoToolsBox .autocomplete span.active{background-color:#fff;color:#112d9b;font-weight:700}.itemDescActions{display:none;position:absolute;background:#fff;border:1px solid #898989;width:106px;left:79px;text-transform:capitalize;cursor:pointer}.itemDescActions div{padding:3px;color:#000}.itemDescActions div:hover{background-color:#f3f3f3}.itenDescAutoComplete:hover .itemDescActions{display:block}.dynamoToolsBox .favorites{background-color:#fff;padding-top:5px}.dynamoToolsBox .favorites a{width:100%;display:inline-block;padding:5px 0}.dynamoToolsBox input[type=text]{width:130px;margin-right:3px}.dynamoToolsBox button{background-color:transparent;border:0;height:21px;color:#696969;font-weight:600}.dynamoToolsBox button:hover{background-color:#efefef;cursor:pointer}';
 
             if (css.styleSheet) {
                 css.styleSheet.cssText = styles;
@@ -801,7 +801,7 @@
                     fieldText.focus();
                 }
             };
-            _createInputElement("descTable", "Desc table", "Table Name", execute, false);
+            _createInputElement("descTable", "Desc table:", "Table Name", execute, false);
         }
     }
 
@@ -819,7 +819,7 @@
                     fieldText.focus();
                 }
             };
-            _createDoubleInputElement("printItem", "Print Item", "Item Descriptor", "Value", execute, true);
+            _createDoubleInputElement("printItem", "Print Item:", "Item Descriptor", "Value", execute, true);
         }
     }
 
@@ -839,7 +839,7 @@
                     DynamoToolBox.global.setCaretPosition(fieldText, message.lastIndexOf('> =') + 1);
                 }, 10);
             };
-            _createInputElement("queryItem", "Query Item", "Item Descriptor", execute, true);
+            _createInputElement("queryItem", "Query Item:", "Item Descriptor", execute, true);
         }
     }
 
@@ -852,7 +852,7 @@
                 window.location = message;
             }
         };
-        _createInputElement("setPropertyDescriptor", "See property description", "Item Descriptor", execute, true);
+        _createInputElement("setPropertyDescriptor", "See property description:", "Item Descriptor", execute, true);
     }
 
     function _addSeeItem() {
@@ -870,7 +870,7 @@
                     window.location = message;
                 }
             };
-            _createDoubleInputElement("seeItem", "See Item", "Item Descriptor", "Value", execute, true, true);
+            _createDoubleInputElement("seeItem", "See Item:", "Item Descriptor", "Value", execute, true, true);
         }
     }
 
@@ -881,7 +881,7 @@
                 location = target.value;
             }
         };
-        _createSelectOneElement("invokeMethod", "Invoke Method", DynamoToolBox.global.loadMethods(), execute);
+        _createSelectOneElement("invokeMethod", "Invoke Method:", DynamoToolBox.global.loadMethods(), execute);
     }
 
     function _addViewConfiguration() {
