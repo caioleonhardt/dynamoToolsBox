@@ -170,7 +170,7 @@
             document.body.innerHTML += content;
         }
 
-        function toggleView() {
+        function toggleView(event) {
             var elem = document.getElementById('contentToolsBox');
             var target = event.target;
             if (elem && target) {
@@ -808,7 +808,7 @@
     function _addPrintItem() {
         var fieldText = document.getElementsByTagName('textarea')[0];
         if (fieldText) {
-            var execute = function() {
+            var execute = function(event) {
                 var target = event.target;
                 var input = target.parentNode.getElementsByTagName('input');
                 if (input[0] && input[0].value && input[1] && input[1].value) {
