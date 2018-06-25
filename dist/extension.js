@@ -792,7 +792,7 @@
     function _addDescTable() {
         var fieldText = document.getElementsByTagName('textarea')[0];
         if (fieldText) {
-            var execute = function() {
+            var execute = function(event) {
                 var target = event.target;
                 var input = target.parentNode.getElementsByTagName('input')[0];
                 if (input && input.value) {
@@ -826,7 +826,7 @@
     function _addQueryItem() {
         var fieldText = document.getElementsByTagName('textarea')[0];
         if (fieldText) {
-            var execute = function() {
+            var execute = function(event) {
                 var target = event.target;
                 var input = target.parentNode.getElementsByTagName('input')[0];
                 if (input && input.value) {
@@ -844,7 +844,7 @@
     }
 
     function _addSeePropertieDescritor() {
-        var execute = function() {
+        var execute = function(event) {
             var target = event.target;
             var input = target.parentNode.getElementsByTagName('input')[0];
             if (input && input.value) {
@@ -858,7 +858,7 @@
     function _addSeeItem() {
         var fieldText = document.getElementsByTagName('textarea')[0];
         if (fieldText) {
-            var execute = function() {
+            var execute = function(event) {
                 var target = event.target;
                 var input = target.parentNode.getElementsByTagName('input');
                 if (input[0] && input[0].value) {
